@@ -57,9 +57,8 @@ Plug 'flazz/vim-colorschemes'
 Plug 'psliwka/vim-smoothie'
 Plug 'preservim/nerdtree'
 Plug 'easymotion/vim-easymotion'
-Plug 'majutsushi/tagbar'
-Plug 'HerringtonDarkholme/yats.vim'
 Plug 'preservim/nerdtree'
+Plug 'airblade/vim-gitgutter'
 
 call plug#end()
 
@@ -86,6 +85,9 @@ let g:netrw_banner = 0
 let g:netrw_winsize = 25
 
 nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
+nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<CR>
+nnoremap <leader>ac <Plug>(coc-codeaction)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
 nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader>phw :h <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader>h :wincmd h<CR>
@@ -101,8 +103,10 @@ nnoremap <Leader>+ :vertical resize +5<CR>
 nnoremap <Leader>- :vertical resize -5<CR>
 nnoremap <Leader>rp :resize 100<CR>
 nnoremap <Leader>ee oif err != nil {<CR>log.Fatalf("%+v\n", err)<CR>}<CR><esc>kkI<esc>
-nnoremap J 5j
-nnoremap K 5k
+noremap K {
+noremap J }
+noremap H ^
+noremap L $
 
 vnoremap X "_d
 
@@ -122,6 +126,7 @@ nmap <leader>gr <Plug>(coc-references)
 nmap <leader>rr <Plug>(coc-rename)
 nmap <leader>g[ <Plug>(coc-diagnostic-prev)
 nmap <leader>g] <Plug>(coc-diagnostic-next)
+nmap <leader>gh <Plug>(coc-fix-current)
 nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev-error)
 nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
 nnoremap <leader>cr :CocRestart
@@ -129,9 +134,6 @@ nmap <C-k> <C-u>
 nmap <C-j> <C-d>
 imap jk <Esc>
 imap jj <Esc>
-" Sweet Sweet FuGITive
-nmap <leader>gh :diffget //3<CR>
-nmap <leader>gu :diffget //2<CR>
 nmap <leader>gs :G<CR>
 
 fun! TrimWhitespace()
@@ -158,3 +160,9 @@ let g:EasyMotion_do_mapping = 0 " Disable default mappings
 let g:EasyMotion_smartcase = 1
 
 map <C-n> :NERDTreeToggle<CR>
+
+"GitGutter
+nmap  ghp <Plug>(GitGutterPreviewHunk)
+nmap  ghu <Plug>(GitGutterUndoHunk)
+nmap  ghs <Plug>(GitGutterStageHunk)
+xmap  ghs <Plug>(GitGutterStageHunk)
