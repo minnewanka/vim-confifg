@@ -13,6 +13,7 @@ set smartindent
 set nu
 set nowrap
 set smartcase
+set ignorecase
 set noswapfile
 set nobackup
 set undodir=~/.vim/undodir
@@ -21,10 +22,8 @@ set incsearch
 set termguicolors
 set scrolloff=8
 set noshowmode
+:autocmd InsertEnter,InsertLeave * set cul!
 
-let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-let &t_SR = "\<Esc>]50;CursorShape=2\x7"
-let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 " Give more space for displaying messages.
 set cmdheight=2
 
@@ -63,7 +62,7 @@ Plug 'airblade/vim-gitgutter'
 
 call plug#end()
 
-let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_contrast_dark = 'medium'
 if exists('+termguicolors')
     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
@@ -87,6 +86,7 @@ let g:netrw_winsize = 25
 
 nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
 nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<CR>
+nnoremap <leader>gb  :<C-u>CocList buffers<CR>
 nnoremap <leader>ac <Plug>(coc-codeaction)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
 nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
@@ -104,11 +104,10 @@ nnoremap <Leader>+ :vertical resize +5<CR>
 nnoremap <Leader>- :vertical resize -5<CR>
 nnoremap <Leader>rp :resize 100<CR>
 nnoremap <Leader>ee oif err != nil {<CR>log.Fatalf("%+v\n", err)<CR>}<CR><esc>kkI<esc>
-noremap K {
-noremap J }
-noremap H ^
-noremap L $
-
+noremap K 5k
+noremap J 5j
+inoremap <C-j> <C-n>
+inoremap <C-k> <C-p>
 vnoremap X "_d
 
 function! s:check_back_space() abort
@@ -136,6 +135,10 @@ nmap <C-j> <C-d>
 imap jk <Esc>
 imap jj <Esc>
 nmap <leader>gs :G<CR>
+nnoremap <leader>q :q!<cr>
+nnoremap <leader>z :wq<cr>
+nnoremap <leader>w :w<cr>
+imap <BS> <Nop>
 
 fun! TrimWhitespace()
     let l:save = winsaveview()
@@ -150,16 +153,6 @@ augroup END
 
 autocmd BufWritePre * :call TrimWhitespace()n
 
-"easymotion
-let g:EasyMotion_do_mapping = 0 " Disable default mappings
-
-" `s{char}{char}{label}`
-" Need one more keystroke, but on average, it may be more comfortable.
- nmap s <Plug>(easymotion-overwin-f2)
-
-" Turn on case-insensitive feature
-let g:EasyMotion_smartcase = 1
-
 map <C-n> :NERDTreeToggle<CR>
 
 "GitGutter
@@ -167,3 +160,20 @@ nmap  ghp <Plug>(GitGutterPreviewHunk)
 nmap  ghu <Plug>(GitGutterUndoHunk)
 nmap  ghs <Plug>(GitGutterStageHunk)
 xmap  ghs <Plug>(GitGutterStageHunk)
+
+" Vim motion
+" s{char}{char} to move to {char}{char}
+nmap s <Plug>(easymotion-overwin-f2)
+let g:EasyMotion_smartcase = 1
+" Gif config
+map  / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
+
+" These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
+" Without these mappings, `n` & `N` works fine. (These mappings just provide
+" different highlight method and have some other features )
+map  n <Plug>(easymotion-next)
+map  N <Plug>(easymotion-prev)
+" <Leader>f{char} to move to {char}
+nmap f <Plug>(easymotion-bd-fl)
+nmap t <Plug>(easymotion-bd-tl)
