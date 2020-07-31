@@ -59,6 +59,7 @@ Plug 'preservim/nerdtree'
 Plug 'easymotion/vim-easymotion'
 Plug 'preservim/nerdtree'
 Plug 'airblade/vim-gitgutter'
+Plug 'nathanaelkane/vim-indent-guides'
 
 call plug#end()
 
@@ -155,6 +156,10 @@ autocmd BufWritePre * :call TrimWhitespace()n
 
 map <C-n> :NERDTreeToggle<CR>
 
+"Vim Indent Guide
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_guide_size = 1
+
 "GitGutter
 nmap  ghp <Plug>(GitGutterPreviewHunk)
 nmap  ghu <Plug>(GitGutterUndoHunk)
@@ -168,7 +173,6 @@ let g:EasyMotion_smartcase = 1
 " Gif config
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
-
 " These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
 " Without these mappings, `n` & `N` works fine. (These mappings just provide
 " different highlight method and have some other features )
@@ -177,3 +181,4 @@ map  N <Plug>(easymotion-prev)
 " <Leader>f{char} to move to {char}
 nmap f <Plug>(easymotion-bd-fl)
 nmap t <Plug>(easymotion-bd-tl)
+
