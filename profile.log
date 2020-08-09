@@ -1,0 +1,3607 @@
+FUNCTION  airline#extensions#quickfix#inactive_qf_window()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/quickfix.vim line 28
+Called 4 times
+Total time:   0.000122
+ Self time:   0.000122
+
+count  total (s)   self (s)
+    4              0.000093   if getbufvar(a:2.bufnr, '&filetype') is# 'qf' && !empty(airline#util#getwinvar(a:2.winnr, 'quickfix_title', ''))
+                                call setwinvar(a:2.winnr, 'airline_section_c', '[%{get(w:, "quickfix_title", "")}] %f %m')
+    4              0.000005   endif
+
+FUNCTION  <SNR>80_get_array()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/highlighter.vim line 56
+Called 794 times
+Total time:   0.009029
+ Self time:   0.009029
+
+count  total (s)   self (s)
+  794              0.003803   let opts=empty(a:opts) ? '' : join(a:opts, ',')
+  794              0.004525   return g:airline_gui_mode ==# 'gui' ? [ a:fg, a:bg, '', '', opts ] : [ '', '', a:fg, a:bg, opts ]
+
+FUNCTION  coc#client#get_channel()
+    Defined: ~/.vim/plugged/coc.nvim/autoload/coc/client.vim line 131
+Called 7 times
+Total time:   0.000067
+ Self time:   0.000067
+
+count  total (s)   self (s)
+    7              0.000017   if s:is_vim
+                                return a:client['channel']
+    7              0.000006   endif
+    7              0.000018   return a:client['chan_id']
+
+FUNCTION  <SNR>101_highlight_name_for_change()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/sign.vim line 234
+Called 30 times
+Total time:   0.000160
+ Self time:   0.000160
+
+count  total (s)   self (s)
+   30              0.000080   if a:text ==# 'added'
+   24              0.000029     return 'GitGutterLineAdded'
+    6              0.000009   elseif a:text ==# 'removed'
+    6              0.000006     return 'GitGutterLineRemoved'
+                              elseif a:text ==# 'removed_first_line'
+                                return 'GitGutterLineRemovedFirstLine'
+                              elseif a:text ==# 'modified'
+                                return 'GitGutterLineModified'
+                              elseif a:text ==# 'modified_removed'
+                                return 'GitGutterLineModifiedRemoved'
+                              elseif a:text ==# 'removed_above_and_below'
+                                return 'GitGutterLineRemovedAboveAndBelow'
+                              endif
+
+FUNCTION  airline#extensions#undotree#apply()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/undotree.vim line 11
+Called 4 times
+Total time:   0.000181
+ Self time:   0.000181
+
+count  total (s)   self (s)
+    4              0.000028   if exists('t:undotree')
+    4              0.000038     if &ft == 'undotree'
+                                  if exists('*t:undotree.GetStatusLine')
+                                    call airline#extensions#apply_left_override('undo', '%{exists("t:undotree") ? t:undotree.GetStatusLine() : ""}')
+                                  else
+                                    call airline#extensions#apply_left_override('undotree', '%f')
+                                  endif
+    4              0.000002     endif
+                            
+    4              0.000024     if &ft == 'diff' && exists('*t:diffpanel.GetStatusLine')
+                                  call airline#extensions#apply_left_override('diff', '%{exists("t:diffpanel") ? t:diffpanel.GetStatusLine() : ""}')
+    4              0.000003     endif
+    4              0.000003   endif
+
+FUNCTION  <SNR>83_display_git_branch()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/branch.vim line 115
+Called 3 times
+Total time:   0.000220
+ Self time:   0.000135
+
+count  total (s)   self (s)
+                              " disable FocusGained autocommand, might cause loops because system() causes
+                              " a refresh, which causes a system() command again #2029
+    3   0.000045   0.000023   call airline#util#ignore_next_focusgain()
+    3              0.000006   let name = b:buffer_vcs_config['git'].branch
+    3              0.000002   try
+    3   0.000099   0.000036     let commit = matchstr(FugitiveParse()[0], '^\x\+')
+                            
+    3              0.000007     if has_key(s:names, commit)
+                                  let name = get(s:names, commit)."(".name.")"
+    3              0.000005     elseif !empty(commit)
+                                  let ref = fugitive#repo().git_chomp('describe', '--all', '--exact-match', commit)
+                                  if ref !~ "^fatal: no tag exactly matches"
+                                    let name = s:format_name(substitute(ref, '\v\C^%(heads/|remotes/|tags/)=','',''))."(".name.")"
+                                  else
+                                    let name = matchstr(commit, '.\{'.s:sha1size.'}')."(".name.")"
+                                  endif
+    3              0.000001     endif
+                              catch
+    3              0.000002   endtry
+    3              0.000003   return name
+
+FUNCTION  airline#util#exec_funcrefs()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/util.vim line 93
+Called 8 times
+Total time:   0.027114
+ Self time:   0.002683
+
+count  total (s)   self (s)
+   56              0.000163     for Fn in a:list
+   56   0.026529   0.002098       let code = call(Fn, a:000)
+   56              0.000117       if code != 0
+    8              0.000010         return code
+   48              0.000042       endif
+   48              0.000042     endfor
+                                return 0
+
+FUNCTION  <SNR>80_group_not_done()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/highlighter.vim line 25
+Called 300 times
+Total time:   0.003086
+ Self time:   0.003086
+
+count  total (s)   self (s)
+  300              0.001495   if index(a:list, a:name) == -1
+  300              0.000996     call add(a:list, a:name)
+  300              0.000291     return 1
+                              else
+                                if &vbs
+                                  echomsg printf("airline: group: %s already done, skipping", a:name)
+                                endif
+                                return 0
+                              endif
+
+FUNCTION  gitgutter#process_buffer()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter.vim line 21
+Called 6 times
+Total time:   0.050656
+ Self time:   0.000928
+
+count  total (s)   self (s)
+                              " NOTE a:bufnr is not necessarily the current buffer.
+                            
+    6   0.009496   0.000096   if gitgutter#utility#is_active(a:bufnr)
+                            
+    6              0.000038     if has('patch-7.4.1559')
+    6              0.000061       let l:Callback = function('gitgutter#process_buffer', [a:bufnr, a:force])
+                                else
+                                  let l:Callback = {'function': 'gitgutter#process_buffer', 'arguments': [a:bufnr, a:force]}
+    6              0.000005     endif
+    6   0.000697   0.000085     let how = s:setup_path(a:bufnr, l:Callback)
+    6              0.000023     if [how] == ['async']  " avoid string-to-number conversion if how is a number
+                                  return
+    6              0.000005     endif
+                            
+    6   0.000139   0.000044     if a:force || s:has_fresh_changes(a:bufnr)
+                            
+    3              0.000007       let diff = 'NOT SET'
+    3              0.000004       try
+    3   0.039860   0.000240         let diff = gitgutter#diff#run_diff(a:bufnr, g:gitgutter_diff_relative_to, 0)
+                                  catch /gitgutter not tracked/
+                                    call gitgutter#debug#log('Not tracked: '.gitgutter#utility#file(a:bufnr))
+                                  catch /gitgutter diff failed/
+                                    call gitgutter#debug#log('Diff failed: '.gitgutter#utility#file(a:bufnr))
+                                    call gitgutter#hunk#reset(a:bufnr)
+    3              0.000007       endtry
+                            
+    3              0.000017       if diff != 'async' && diff != 'NOT SET'
+                                    call gitgutter#diff#handler(a:bufnr, diff)
+    3              0.000003       endif
+                            
+    6              0.000005     endif
+    6              0.000004   endif
+
+FUNCTION  <SNR>83_format_name()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/branch.vim line 77
+Called 3 times
+Total time:   0.000004
+ Self time:   0.000004
+
+count  total (s)   self (s)
+    3              0.000003     return a:name
+
+FUNCTION  <SNR>97_write_buffer()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/diff.vim line 376
+Called 3 times
+Total time:   0.004911
+ Self time:   0.004911
+
+count  total (s)   self (s)
+    3              0.000200   let bufcontents = getbufline(a:bufnr, 1, '$')
+                            
+    3              0.000037   if bufcontents == [''] && line2byte(1) == -1
+                                " Special case: completely empty buffer.
+                                " A nearly empty buffer of only a newline has line2byte(1) == 1.
+                                call writefile([], a:file)
+                                return
+    3              0.000003   endif
+                            
+    3              0.000022   if getbufvar(a:bufnr, '&fileformat') ==# 'dos'
+                                call map(bufcontents, 'v:val."\r"')
+    3              0.000002   endif
+                            
+    3              0.000012   if getbufvar(a:bufnr, '&endofline')
+    3              0.000013     call add(bufcontents, '')
+    3              0.000003   endif
+                            
+    3              0.000014   let fenc = getbufvar(a:bufnr, '&fileencoding')
+    3              0.000009   if fenc !=# &encoding
+                                call map(bufcontents, 'iconv(v:val, &encoding, "'.fenc.'")')
+    3              0.000002   endif
+                            
+    3              0.000010   if getbufvar(a:bufnr, '&bomb')
+                                let bufcontents[0]='﻿'.bufcontents[0]
+    3              0.000002   endif
+                            
+    3              0.004516   call writefile(bufcontents, a:file, 'b')
+
+FUNCTION  airline#extensions#coc#get_error()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/coc.vim line 14
+Called 33 times
+Total time:   0.001258
+ Self time:   0.000348
+
+count  total (s)   self (s)
+   33   0.001240   0.000330   return airline#extensions#coc#get('error')
+
+FUNCTION  <SNR>80_CheckDefined()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/highlighter.vim line 132
+Called 450 times
+Total time:   0.021396
+ Self time:   0.021396
+
+count  total (s)   self (s)
+                              " Checks, whether the definition of the colors is valid and is not empty or NONE
+                              " e.g. if the colors would expand to this:
+                              " hi airline_c ctermfg=NONE ctermbg=NONE
+                              " that means to clear that highlighting group, therefore, fallback to Normal
+                              " highlighting group for the cterm values
+                            
+                              " This only works, if the Normal highlighting group is actually defined, so
+                              " return early, if it has been cleared
+  450              0.001995   if !exists("g:airline#highlighter#normal_fg_hi")
+                                let g:airline#highlighter#normal_fg_hi = synIDattr(synIDtrans(hlID('Normal')), 'fg', 'cterm')
+  450              0.000271   endif
+  450              0.009770   if empty(g:airline#highlighter#normal_fg_hi) || g:airline#highlighter#normal_fg_hi < 0
+                                return a:colors
+  450              0.000228   endif
+                            
+  450              0.001190   for val in a:colors
+  450              0.001509     if !empty(val) && val !=# 'NONE'
+  450              0.000627       return a:colors
+                                endif
+                              endfor
+                              " this adds the bold attribute to the term argument of the :hi command,
+                              " but at least this makes sure, the group will be defined
+                              let fg = g:airline#highlighter#normal_fg_hi
+                              let bg = synIDattr(synIDtrans(hlID('Normal')), 'bg', 'cterm')
+                              if bg < 0
+                                " in case there is no background color defined for Normal
+                                let bg = a:colors[3]
+                              endif
+                              return a:colors[0:1] + [fg, bg] + [a:colors[4]]
+
+FUNCTION  airline#statusline()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline.vim line 190
+Called 44 times
+Total time:   0.000897
+ Self time:   0.000897
+
+count  total (s)   self (s)
+   44              0.000432   if has_key(s:contexts, a:winnr)
+   44              0.000370     return '%{airline#check_mode('.a:winnr.')}'.s:contexts[a:winnr].line
+                              endif
+                              " in rare circumstances this happens...see #276
+                              return ''
+
+FUNCTION  airline#check_mode()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline.vim line 199
+Called 44 times
+Total time:   0.233855
+ Self time:   0.007555
+
+count  total (s)   self (s)
+   44              0.000240   if !has_key(s:contexts, a:winnr)
+                                return ''
+   44              0.000046   endif
+   44              0.000155   let context = s:contexts[a:winnr]
+                            
+   44              0.000174   if get(w:, 'airline_active', 1)
+   33              0.000126     let l:m = mode(1)
+   33              0.000070     if l:m ==# "i"
+                                  let l:mode = ['insert']
+   33              0.000081     elseif l:m[0] ==# "i"
+                                  let l:mode = ['insert']
+   33              0.000048     elseif l:m ==# "Rv"
+                                  let l:mode =['replace']
+   33              0.000053     elseif l:m[0] ==# "R"
+                                  let l:mode = ['replace']
+   33              0.000617     elseif l:m[0] =~# '\v(v|V||s|S|)'
+                                  let l:mode = ['visual']
+   33              0.000053     elseif l:m ==# "t"
+                                  let l:mode = ['terminal']
+   33              0.000052     elseif l:m[0] ==# "c"
+    5              0.000012       let l:mode = ['commandline']
+   28              0.000041     elseif l:m ==# "no"   " does not work, most likely, Vim does not refresh the statusline in OP mode
+                                  let l:mode = ['normal']
+   28              0.000056     elseif l:m[0:1] ==# 'ni'
+                                  let l:mode = ['normal']
+                                  let l:m = 'ni'
+   28              0.000021     else
+   28              0.000068       let l:mode = ['normal']
+   33              0.000021     endif
+   33              0.000267     if exists("*VMInfos") && !empty(VMInfos())
+                                  " Vim plugin Multiple Cursors https://github.com/mg979/vim-visual-multi
+                                  let l:m = 'multi'
+   33              0.000019     endif
+   33              0.000263     if index(['Rv', 'no', 'ni', 'ix', 'ic', 'multi'], l:m) == -1
+   33              0.000073       let l:m = l:m[0]
+   33              0.000019     endif
+   33              0.000253     let w:airline_current_mode = get(g:airline_mode_map, l:m, l:m)
+   11              0.000008   else
+   11              0.000025     let l:mode = ['inactive']
+   11              0.000057     let w:airline_current_mode = get(g:airline_mode_map, '__')
+   44              0.000032   endif
+                            
+   44              0.000171   if g:airline_detect_modified && &modified
+                                call add(l:mode, 'modified')
+   44              0.000024   endif
+                            
+   44              0.000088   if g:airline_detect_paste && &paste
+                                call add(l:mode, 'paste')
+   44              0.000022   endif
+                            
+   44              0.000375   if g:airline_detect_crypt && exists("+key") && !empty(&key)
+                                call add(l:mode, 'crypt')
+   44              0.000022   endif
+                            
+   44              0.000080   if g:airline_detect_spell && &spell
+                                call add(l:mode, 'spell')
+   44              0.000032   endif
+                            
+   44              0.000071   if &readonly || ! &modifiable
+                                call add(l:mode, 'readonly')
+   44              0.000023   endif
+                            
+   44              0.000231   let mode_string = join(l:mode)
+   44              0.000219   if get(w:, 'airline_lastmode', '') != mode_string
+   10   0.004004   0.000153     call airline#highlighter#highlight_modified_inactive(context.bufnr)
+   10   0.221165   0.000541     call airline#highlighter#highlight(l:mode, context.bufnr)
+   10   0.001972   0.000147     call airline#util#doautocmd('AirlineModeChanged')
+   10              0.000032     let w:airline_lastmode = mode_string
+   44              0.000024   endif
+                            
+   44              0.000053   return ''
+
+FUNCTION  <SNR>98_ReloadWinStatus()
+    Defined: ~/.vim/plugged/vim-fugitive/autoload/fugitive.vim line 2871
+Called 3 times
+Total time:   0.000066
+ Self time:   0.000066
+
+count  total (s)   self (s)
+    3              0.000046   if get(b:, 'fugitive_type', '') !=# 'index' || &modified
+    3              0.000007     return
+                              endif
+                              if !exists('b:fugitive_reltime')
+                                exe s:ReloadStatusBuffer()
+                                return
+                              endif
+                              let t = b:fugitive_reltime
+                              if reltimestr(reltime(s:last_time, t)) =~# '-\|\d\{10\}\.' || reltimestr(reltime(get(s:last_times, s:cpath(s:Dir()), t), t)) =~# '-\|\d\{10\}\.'
+                                exe s:ReloadStatusBuffer()
+                              endif
+
+FUNCTION  <SNR>80_GetHiCmd()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/highlighter.vim line 164
+Called 120 times
+Total time:   0.010860
+ Self time:   0.010860
+
+count  total (s)   self (s)
+                              " a:list needs to have 5 items!
+  120              0.000159   let res = ''
+  120              0.000130   let i = -1
+  720              0.000643   while i < 4
+  600              0.000593     let i += 1
+  600              0.001525     let item = get(a:list, i, '')
+  600              0.000775     if item is ''
+  330              0.000231       continue
+  270              0.000127     endif
+  270              0.000238     if i == 0
+  120              0.000325       let res .= ' guifg='.item
+  150              0.000195     elseif i == 1
+  120              0.000296       let res .= ' guibg='.item
+   30              0.000020     elseif i == 2
+                                  let res .= ' ctermfg='.item
+   30              0.000023     elseif i == 3
+                                  let res .= ' ctermbg='.item
+   30              0.000022     elseif i == 4
+   30              0.000204       let res .= printf(' gui=%s cterm=%s term=%s', item, item, item)
+  270              0.000159     endif
+  390              0.000561   endwhile
+  120              0.000140   return res
+
+FUNCTION  airline#util#append()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/util.vim line 49
+Called 231 times
+Total time:   0.003213
+ Self time:   0.003213
+
+count  total (s)   self (s)
+  231              0.000735   if a:minwidth > 0 && airline#util#winwidth() < a:minwidth
+                                return ''
+  231              0.000123   endif
+  231              0.000846   let prefix = s:spc == "\ua0" ? s:spc : s:spc.s:spc
+  231              0.000837   return empty(a:text) ? '' : prefix.g:airline_left_alt_sep.s:spc.a:text
+
+FUNCTION  airline#util#try_focusgained()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/util.vim line 203
+Called 3 times
+Total time:   0.000067
+ Self time:   0.000067
+
+count  total (s)   self (s)
+                              " Ignore lasts for at most one second and is cleared on the first
+                              " focusgained. We use ignore to prevent system() calls from triggering
+                              " FocusGained (which occurs 100% on win32 and seem to sometimes occur under
+                              " tmux).
+    3              0.000029   let dt = localtime() - s:focusgained_ignore_time
+    3              0.000016   let s:focusgained_ignore_time = 0
+    3              0.000008   return dt >= 1
+
+FUNCTION  airline#extensions#branch#update_untracked_config()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/branch.vim line 183
+Called 33 times
+Total time:   0.000742
+ Self time:   0.000742
+
+count  total (s)   self (s)
+   33              0.000272   if !has_key(s:vcs_config[a:vcs].untracked, a:file)
+                                return
+   33              0.000184   elseif s:vcs_config[a:vcs].untracked[a:file] != b:buffer_vcs_config[a:vcs].untracked
+                                let b:buffer_vcs_config[a:vcs].untracked = s:vcs_config[a:vcs].untracked[a:file]
+                                unlet! b:airline_head
+   33              0.000034   endif
+
+FUNCTION  <SNR>94_has_fresh_changes()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter.vim line 162
+Called 3 times
+Total time:   0.000095
+ Self time:   0.000057
+
+count  total (s)   self (s)
+    3   0.000093   0.000055   return getbufvar(a:bufnr, 'changedtick') != gitgutter#utility#getbufvar(a:bufnr, 'tick')
+
+FUNCTION  airline#themes#get_highlight()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/themes.vim line 31
+Called 280 times
+Total time:   0.071157
+ Self time:   0.009108
+
+count  total (s)   self (s)
+  280   0.070930   0.008881   return call('airline#highlighter#get_highlight', [a:group] + a:000)
+
+FUNCTION  airline#mode_changed()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline.vim line 279
+Called 10 times
+Total time:   0.000364
+ Self time:   0.000284
+
+count  total (s)   self (s)
+                              " airline#visual_active
+                              " Boolean: for when to get visual wordcount
+                              " needed for the wordcount extension
+   10              0.000165   let g:airline#visual_active = (mode() =~? '[vs]')
+   10   0.000168   0.000089   call airline#update_tabline()
+
+FUNCTION  FugitiveWorkTree()
+    Defined: ~/.vim/plugged/vim-fugitive/plugin/fugitive.vim line 151
+Called 33 times
+Total time:   0.002736
+ Self time:   0.000529
+
+count  total (s)   self (s)
+   33   0.002710   0.000503   return s:Tree(FugitiveGitDir(a:0 ? a:1 : -1))
+
+FUNCTION  <SNR>92_get_accented_line()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/builder.vim line 166
+Called 48 times
+Total time:   0.004632
+ Self time:   0.004632
+
+count  total (s)   self (s)
+   48              0.000226   if a:self._context.active
+                                " active window
+   32              0.000113     let contents = []
+   32              0.000417     let content_parts = split(a:contents, '__accent')
+   84              0.000173     for cpart in content_parts
+   52              0.000681       let accent = matchstr(cpart, '_\zs[^#]*\ze')
+   52              0.000238       call add(contents, cpart)
+   84              0.000110     endfor
+   32              0.000285     let line = join(contents, a:group)
+   32              0.000361     let line = substitute(line, '__restore__', a:group, 'g')
+   16              0.000091   else
+                                " inactive window
+   16              0.000603     let line = substitute(a:contents, '%#__accent[^#]*#', '', 'g')
+   16              0.000207     let line = substitute(line, '%#__restore__#', '', 'g')
+   48              0.000052   endif
+   48              0.000081   return line
+
+FUNCTION  airline#extensions#fugitiveline#bufname()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/fugitiveline.vim line 15
+Called 44 times
+Total time:   0.007082
+ Self time:   0.006829
+
+count  total (s)   self (s)
+   44              0.000184   if !exists('b:fugitive_name')
+    3              0.000006     let b:fugitive_name = ''
+    3              0.000004     try
+    3              0.000029       if bufname('%') =~? '^fugitive:' && exists('*FugitiveReal')
+                                    let b:fugitive_name = FugitiveReal(bufname('%'))
+    3              0.000018       elseif exists('b:git_dir') && exists('*fugitive#repo')
+    3              0.000012         if get(b:, 'fugitive_type', '') is# 'blob'
+                                      let b:fugitive_name = fugitive#repo().translate(FugitivePath(@%, ''))
+    3              0.000002         endif
+                                  elseif exists('b:git_dir') && !exists('*fugitive#repo')
+                                    let buffer = fugitive#buffer()
+                                    if buffer.type('blob')
+                                      let b:fugitive_name = buffer.repo().translate(buffer.path('/'))
+                                    endif
+    3              0.000002       endif
+                                catch
+    3              0.000003     endtry
+   44              0.000022   endif
+                            
+   44   0.000862   0.000610   let fmod = s:ModifierFlags()
+   44              0.000132   if empty(b:fugitive_name)
+   44              0.004501     return fnamemodify(bufname('%'), fmod)
+                              else
+                                return fnamemodify(b:fugitive_name, fmod). " [git]"
+                              endif
+
+FUNCTION  gitgutter#sign#update_signs()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/sign.vim line 57
+Called 3 times
+Total time:   0.001708
+ Self time:   0.001398
+
+count  total (s)   self (s)
+    3              0.000027   if exists('*sign_unplace')
+                                " Vim is (hopefully) now quick enough to remove all signs then place new ones.
+    3              0.000074     call sign_unplace('gitgutter', {'buffer': a:bufnr})
+                            
+    3   0.000263   0.000114     let modified_lines = s:handle_double_hunk(a:modified_lines)
+    3   0.000926   0.000766     let signs = map(copy(modified_lines), '{'. '"buffer":   a:bufnr,'. '"group":    "gitgutter",'. '"name":     s:highlight_name_for_change(v:val[1]),'. '"lnum":     v:val[0],'. '"priority": g:gitgutter_sign_priority'. '}')
+                            
+    3              0.000015     if exists('*sign_placelist')
+                                  call sign_placelist(signs)
+                                  return
+    3              0.000003     endif
+                            
+   33              0.000044     for sign in signs
+   30              0.000255       call sign_place(0, sign.group, sign.name, sign.buffer, {'lnum': sign.lnum, 'priority': sign.priority})
+   33              0.000031     endfor
+    3              0.000003     return
+                              endif
+                            
+                            
+                              " Derive a delta between the current signs and the ones we want.
+                              " Remove signs from lines that no longer need a sign.
+                              " Upsert the remaining signs.
+                            
+                              call s:find_current_signs(a:bufnr)
+                            
+                              let new_gitgutter_signs_line_numbers = map(copy(a:modified_lines), 'v:val[0]')
+                              let obsolete_signs = s:obsolete_gitgutter_signs_to_remove(a:bufnr, new_gitgutter_signs_line_numbers)
+                            
+                              call s:remove_signs(a:bufnr, obsolete_signs, s:remove_all_old_signs)
+                              call s:upsert_new_gitgutter_signs(a:bufnr, a:modified_lines)
+
+FUNCTION  coc#util#clearmatches()
+    Defined: ~/.vim/plugged/coc.nvim/autoload/coc/util.vim line 899
+Called 1 time
+Total time:   0.000027
+ Self time:   0.000027
+
+count  total (s)   self (s)
+    1              0.000004   let winid = get(a:, 1, 0)
+    1              0.000004   if winid != 0 && win_getid() != winid
+                                return
+    1              0.000001   endif
+    1              0.000002   for id in a:ids
+                                try
+                                  call matchdelete(id)
+                                catch /.*/
+                                  " matches have been cleared in other ways,
+                                endtry
+    1              0.000001   endfor
+    1              0.000002   let exists = get(w:, 'coc_matchids', [])
+    1              0.000002   if !empty(exists)
+                                call filter(w:coc_matchids, 'index(a:ids, v:val) == -1')
+    1              0.000001   endif
+
+FUNCTION  airline#extensions#coc#get_warning()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/coc.vim line 10
+Called 33 times
+Total time:   0.001721
+ Self time:   0.000593
+
+count  total (s)   self (s)
+   33   0.001689   0.000561   return airline#extensions#coc#get('warning')
+
+FUNCTION  airline#extensions#coc#get_status()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/coc.vim line 45
+Called 44 times
+Total time:   0.005830
+ Self time:   0.000725
+
+count  total (s)   self (s)
+                              " Shorten text for windows < 91 characters
+   44   0.005658   0.000553   return airline#util#shorten(get(g:, 'coc_status', ''), 91, 9)
+
+FUNCTION  <SNR>82_is_branch_empty()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/hunks.vim line 55
+Called 33 times
+Total time:   0.000346
+ Self time:   0.000346
+
+count  total (s)   self (s)
+   33              0.000311   return exists('*airline#extensions#branch#head') && empty(get(b:, 'airline_head', ''))
+
+FUNCTION  airline#util#has_fugitive()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/util.vim line 143
+Called 66 times
+Total time:   0.000555
+ Self time:   0.000555
+
+count  total (s)   self (s)
+   66              0.000192   if !exists("s:has_fugitive")
+                                let s:has_fugitive = exists('*fugitive#head') || exists('*FugitiveHead')
+   66              0.000036   endif
+   66              0.000078   return s:has_fugitive
+
+FUNCTION  coc#util#cursor()
+    Defined: ~/.vim/plugged/coc.nvim/autoload/coc/util.vim line 90
+Called 1 time
+Total time:   0.000035
+ Self time:   0.000035
+
+count  total (s)   self (s)
+    1              0.000014   let pos = getcurpos()
+    1              0.000009   let content = pos[2] == 1 ? '' : getline('.')[0: pos[2] - 2]
+    1              0.000008   return [pos[1] - 1, strchars(content)]
+
+FUNCTION  airline#parts#filetype()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/parts.vim line 102
+Called 44 times
+Total time:   0.001276
+ Self time:   0.000746
+
+count  total (s)   self (s)
+   44   0.001234   0.000704   return (airline#util#winwidth() < 90 && strlen(&filetype) > 3) ? matchstr(&filetype, '...'). (&encoding is? 'utf-8' ? '…' : '>') : &filetype
+
+FUNCTION  airline#extensions#netrw#apply()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/netrw.vim line 11
+Called 4 times
+Total time:   0.000189
+ Self time:   0.000189
+
+count  total (s)   self (s)
+    4              0.000064   if &ft == 'netrw'
+                                let spc = g:airline_symbols.space
+                            
+                                call a:1.add_section('airline_a', spc.'netrw'.spc)
+                                if exists('*airline#extensions#branch#get_head')
+                                  call a:1.add_section('airline_b', spc.'%{airline#extensions#branch#get_head()}'.spc)
+                                endif
+                                call a:1.add_section('airline_c', spc.'%f'.spc)
+                                call a:1.split()
+                                call a:1.add_section('airline_y', spc.'%{airline#extensions#netrw#sortstring()}'.spc)
+                                return 1
+    4              0.000003   endif
+
+FUNCTION  airline#parts#iminsert()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/parts.vim line 82
+Called 33 times
+Total time:   0.000326
+ Self time:   0.000326
+
+count  total (s)   self (s)
+   33              0.000125   if g:airline_detect_iminsert && &iminsert && exists('b:keymap_name')
+                                return toupper(b:keymap_name)
+   33              0.000074   endif
+   33              0.000026   return ''
+
+FUNCTION  airline#update_tabline()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline.vim line 273
+Called 14 times
+Total time:   0.000115
+ Self time:   0.000115
+
+count  total (s)   self (s)
+   14              0.000055   if get(g:, 'airline_statusline_ontop', 0)
+                                call airline#extensions#tabline#redraw()
+   14              0.000011   endif
+
+FUNCTION  airline#extensions#term#apply()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/term.vim line 10
+Called 4 times
+Total time:   0.000197
+ Self time:   0.000197
+
+count  total (s)   self (s)
+    4              0.000054   if &buftype == 'terminal' || bufname('%')[0] == '!'
+                                let spc = g:airline_symbols.space
+                            
+                                call a:1.add_section('airline_a', spc.s:section_a.spc)
+                                call a:1.add_section('airline_b', '')
+                                call a:1.add_section('airline_term', spc.s:termname())
+                                call a:1.split()
+                                call a:1.add_section('airline_y', '')
+                                call a:1.add_section('airline_z', spc.airline#section#create_right(['linenr', 'maxlinenr']))
+                                return 1
+    4              0.000004   endif
+
+FUNCTION  <SNR>98_Slash()
+    Defined: ~/.vim/plugged/vim-fugitive/autoload/fugitive.vim line 104
+Called 99 times
+Total time:   0.000870
+ Self time:   0.000870
+
+count  total (s)   self (s)
+   99              0.000426   if exists('+shellslash')
+                                return tr(a:path, '\', '/')
+   99              0.000062   else
+   99              0.000102     return a:path
+                              endif
+
+FUNCTION  airline#extensions#coc#get()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/coc.vim line 18
+Called 66 times
+Total time:   0.002038
+ Self time:   0.002038
+
+count  total (s)   self (s)
+   66              0.000278   if !exists(':CocCommand')
+                                return ''
+   66              0.000035   endif
+   66              0.000299   let _backup = get(g:, 'coc_stl_format', '')
+   66              0.000164   let is_err = (a:type  is# 'error')
+   66              0.000061   if is_err
+   33              0.000181     let g:coc_stl_format = get(g:, 'airline#extensions#coc#stl_format_err', '%E{[%e(#%fe)]}')
+   33              0.000021   else
+   33              0.000209     let g:coc_stl_format = get(g:, 'airline#extensions#coc#stl_format_warn', '%W{[%w(#%fw)]}')
+   66              0.000036   endif
+   66              0.000211   let info = get(b:, 'coc_diagnostic_info', {})
+   66              0.000165   if empty(info) | return '' | endif
+                            
+                            
+                              let cnt = get(info, a:type, 0)
+                              if !empty(_backup)
+                                let g:coc_stl_format = _backup
+                              endif
+                            
+                              if empty(cnt)
+                                return ''
+                              else
+                                return (is_err ? s:error_symbol : s:warning_symbol).cnt
+                              endif
+
+FUNCTION  <SNR>16_notify()
+    Defined: ~/.vim/plugged/coc.nvim/autoload/coc/client.vim line 171
+Called 7 times
+Total time:   0.001132
+ Self time:   0.001065
+
+count  total (s)   self (s)
+    7   0.000201   0.000135   let channel = coc#client#get_channel(self)
+    7              0.000020   if empty(channel)
+                                return ''
+    7              0.000004   endif
+    7              0.000008   try
+    7              0.000008     if s:is_vim
+                                  call ch_sendraw(channel, json_encode([0, [a:method, a:args]])."\n")
+    7              0.000012     else
+    7              0.000390       call call('rpcnotify', [channel, a:method] + a:args)
+    7              0.000058     endif
+                              catch /.*/
+                                if v:exception =~# 'E475'
+                                  if get(g:, 'coc_vim_leaving', 0)
+                                    return
+                                  endif
+                                  echohl Error | echom '['.self.name.'] server connection lost' | echohl None
+                                  let name = self.name
+                                  call s:on_exit(name, 0)
+                                  execute 'silent do User ConnectionLost'.toupper(name[0]).name[1:]
+                                elseif v:exception =~# 'E12'
+                                  " neovim's bug, ignore it
+                                else
+                                  echohl Error | echo 'Error on notify ('.a:method.'): '.v:exception | echohl None
+                                endif
+    7              0.000009   endtry
+
+FUNCTION  <SNR>95_build_command()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/async.vim line 40
+Called 3 times
+Total time:   0.000029
+ Self time:   0.000029
+
+count  total (s)   self (s)
+    3              0.000014   if has('unix')
+    3              0.000012     return ['sh', '-c', a:cmd]
+                              endif
+                            
+                              if has('win32')
+                                return has('nvim') ? ['cmd.exe', '/c', a:cmd] : 'cmd.exe /c '.a:cmd
+                              endif
+                            
+                              throw 'unknown os'
+
+FUNCTION  airline#extensions#apply()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions.vim line 70
+Called 8 times
+Total time:   0.001541
+ Self time:   0.000853
+
+count  total (s)   self (s)
+    8              0.000070   let filetype_overrides = get(s:, 'filetype_overrides', {})
+    8              0.000110   call extend(filetype_overrides, get(g:, 'airline_filetype_overrides', {}), 'force')
+                            
+    8   0.000829   0.000141   if s:is_excluded_window()
+                                return -1
+    8              0.000004   endif
+                            
+    8              0.000027   if &buftype == 'terminal'
+                                let w:airline_section_x = ''
+                                let w:airline_section_y = ''
+    8              0.000005   endif
+                            
+    8              0.000035   if &previewwindow && empty(get(w:, 'airline_section_a', ''))
+                                let w:airline_section_a = 'Preview'
+                                let w:airline_section_b = ''
+                                let w:airline_section_c = bufname(winbufnr(winnr()))
+    8              0.000005   endif
+                            
+    8              0.000083   if has_key(filetype_overrides, &ft) && ((&filetype == 'help' && &buftype == 'help') || &filetype !~ 'help')
+                                " for help files only override it, if the buftype is also of type 'help',
+                                " else it would trigger when editing Vim help files
+                                let args = filetype_overrides[&ft]
+                                call airline#extensions#apply_left_override(args[0], args[1])
+    8              0.000005   endif
+                            
+    8              0.000017   if &buftype == 'help'
+                                let w:airline_section_x = ''
+                                let w:airline_section_y = ''
+                                let w:airline_render_right = 1
+    8              0.000006   endif
+                            
+    8              0.000042   for item in items(s:filetype_regex_overrides)
+                                if match(&ft, item[0]) >= 0
+                                  call airline#extensions#apply_left_override(item[1][0], item[1][1])
+                                endif
+    8              0.000013   endfor
+
+FUNCTION  gitgutter#utility#has_repo_path()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/utility.vim line 102
+Called 6 times
+Total time:   0.000530
+ Self time:   0.000102
+
+count  total (s)   self (s)
+    6   0.000526   0.000098   return index(['', -1, -2], gitgutter#utility#repo_path(a:bufnr, 0)) == -1
+
+FUNCTION  <SNR>97_process_added()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/diff.vim line 294
+Called 12 times
+Total time:   0.000623
+ Self time:   0.000623
+
+count  total (s)   self (s)
+   12              0.000044   let offset = 0
+   36              0.000088   while offset < a:to_count
+   24              0.000077     let line_number = a:to_line + offset
+   24              0.000185     call add(a:modifications, [line_number, 'added'])
+   24              0.000057     let offset += 1
+   36              0.000058   endwhile
+
+FUNCTION  <SNR>101_handle_double_hunk()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/sign.vim line 212
+Called 3 times
+Total time:   0.000150
+ Self time:   0.000150
+
+count  total (s)   self (s)
+    3              0.000038   if a:modified_lines[0:1] == [[1, 'removed_first_line'], [1, 'removed']]
+                                return [[1, 'removed_above_and_below']] + a:modified_lines[2:]
+    3              0.000008   endif
+                            
+    3              0.000042   return a:modified_lines
+
+FUNCTION  gitgutter#utility#cd_cmd()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/utility.vim line 164
+Called 3 times
+Total time:   0.002439
+ Self time:   0.000175
+
+count  total (s)   self (s)
+    3   0.000930   0.000113   let cd = s:unc_path(a:bufnr) ? 'pushd' : (gitgutter#utility#windows() && s:dos_shell() ? 'cd /d' : 'cd')
+    3   0.001503   0.000057   return cd.' '.s:dir(a:bufnr).' && '.a:cmd
+
+FUNCTION  airline#util#winwidth()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/util.vim line 19
+Called 486 times
+Total time:   0.006188
+ Self time:   0.006188
+
+count  total (s)   self (s)
+  486              0.002098   let nr = get(a:000, 0, 0)
+  486              0.001307   if get(g:, 'airline_statusline_ontop', 0)
+                                return &columns
+  486              0.000394   else
+  486              0.001085     return winwidth(nr)
+                              endif
+
+FUNCTION  <SNR>75_invoke_funcrefs()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline.vim line 177
+Called 8 times
+Total time:   0.125779
+ Self time:   0.001036
+
+count  total (s)   self (s)
+    8   0.000620   0.000137   let builder = airline#builder#new(a:context)
+    8   0.027377   0.000263   let err = airline#util#exec_funcrefs(a:funcrefs + s:core_funcrefs, builder, a:context)
+    8              0.000014   if err == 1
+    8   0.097379   0.000233     let a:context.line = builder.build()
+    8              0.000122     let s:contexts[a:context.winnr] = a:context
+    8              0.000056     let option = get(g:, 'airline_statusline_ontop', 0) ? '&tabline' : '&statusline'
+    8              0.000167     call setwinvar(a:context.winnr, option, '%!airline#statusline('.a:context.winnr.')')
+    8              0.000009   endif
+
+FUNCTION  <SNR>95_on_stderr_nvim()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/async.vim line 63
+Called 3 times
+Total time:   0.000071
+ Self time:   0.000071
+
+count  total (s)   self (s)
+    3              0.000031   if a:data != ['']  " With Neovim there is always [''] reported on stderr.
+                                call self.handler.err(self.buffer)
+    3              0.000006   endif
+
+FUNCTION  airline#util#doautocmd()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/util.vim line 176
+Called 13 times
+Total time:   0.004463
+ Self time:   0.001448
+
+count  total (s)   self (s)
+   13   0.004446   0.001431   exe printf("silent doautocmd %s User %s", s:nomodeline, a:event)
+
+FUNCTION  gitgutter#diff#parse_diff()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/diff.vim line 206
+Called 3 times
+Total time:   0.001620
+ Self time:   0.000706
+
+count  total (s)   self (s)
+    3              0.000010   let hunks = []
+   21              0.000075   for line in split(a:diff, '\n')
+   18   0.001372   0.000458     let hunk_info = gitgutter#diff#parse_hunk(line)
+   18              0.000040     if len(hunk_info) == 4
+   18              0.000049       call add(hunks, hunk_info)
+   18              0.000014     endif
+   21              0.000019   endfor
+    3              0.000004   return hunks
+
+FUNCTION  <SNR>95_on_stdout_nvim()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/async.vim line 53
+Called 6 times
+Total time:   0.000313
+ Self time:   0.000313
+
+count  total (s)   self (s)
+    6              0.000087   if empty(self.stdoutbuffer)
+    3              0.000054     let self.stdoutbuffer = a:data
+    3              0.000003   else
+    3              0.000086     let self.stdoutbuffer = self.stdoutbuffer[:-2] + [self.stdoutbuffer[-1] . a:data[0]] + a:data[1:]
+    6              0.000012   endif
+
+FUNCTION  gitgutter#diff#process_hunks()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/diff.vim line 232
+Called 3 times
+Total time:   0.007353
+ Self time:   0.000603
+
+count  total (s)   self (s)
+    3              0.000008   let modified_lines = []
+   21              0.000068   for hunk in a:hunks
+   18   0.007177   0.000428     call extend(modified_lines, s:process_hunk(a:bufnr, hunk))
+   21              0.000065   endfor
+    3              0.000006   return modified_lines
+
+FUNCTION  <SNR>80_get_syn()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/highlighter.vim line 37
+Called 1588 times
+Total time:   0.064869
+ Self time:   0.064869
+
+count  total (s)   self (s)
+ 1588              0.006155   if !exists("g:airline_gui_mode")
+                                let g:airline_gui_mode = airline#init#gui_mode()
+ 1588              0.001056   endif
+ 1588              0.002302   let color = ''
+ 1588              0.006935   if hlexists(a:group)
+ 1526              0.010381     let color = synIDattr(synIDtrans(hlID(a:group)), a:what, g:airline_gui_mode)
+ 1588              0.001026   endif
+ 1588              0.004409   if empty(color) || color == -1
+                                " should always exists
+   62              0.007857     let color = synIDattr(synIDtrans(hlID('Normal')), a:what, g:airline_gui_mode)
+                                " however, just in case
+   62              0.000246     if empty(color) || color == -1
+                                  let color = 'NONE'
+   62              0.000037     endif
+ 1588              0.000764   endif
+ 1588              0.001878   return color
+
+FUNCTION  <SNR>53_abs_path()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/utility.vim line 200
+Called 21 times
+Total time:   0.004843
+ Self time:   0.004843
+
+count  total (s)   self (s)
+   21              0.003953   let p = resolve(expand('#'.a:bufnr.':p'))
+                            
+                              " Remove extra parts from fugitive's filepaths
+   21              0.000642   let p = substitute(substitute(p, '^fugitive:', '', ''), '\v\.git/\x{40,}/', '', '')
+                            
+   21              0.000117   return a:shellesc ? gitgutter#utility#shellescape(p) : p
+
+FUNCTION  airline#extensions#default#apply()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/default.vim line 79
+Called 8 times
+Total time:   0.021010
+ Self time:   0.001578
+
+count  total (s)   self (s)
+    8              0.000030   let winnr = a:context.winnr
+    8              0.000394   let active = a:context.active
+                            
+    8   0.000204   0.000140   if airline#util#getwinvar(winnr, 'airline_render_left', active || (!active && !g:airline_inactive_collapse))
+    4   0.003737   0.000154     call s:build_sections(a:builder, a:context, s:layout[0])
+    4              0.000005   else
+    4   0.000506   0.000060     let text = s:get_section(winnr, 'c')
+    4              0.000011     if empty(text)
+                                  let text = ' %f%m '
+    4              0.000003     endif
+    4   0.000096   0.000064     call a:builder.add_section('airline_c'.(a:context.bufnr), text)
+    8              0.000006   endif
+                            
+    8   0.000710   0.000170   call a:builder.split(s:get_section(winnr, 'gutter', '', ''))
+                            
+    8   0.000184   0.000146   if airline#util#getwinvar(winnr, 'airline_render_right', 1)
+    8   0.014977   0.000248     call s:build_sections(a:builder, a:context, s:layout[1])
+    8              0.000007   endif
+                            
+    8              0.000009   return 1
+
+FUNCTION  airline#util#stl_disabled()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/util.vim line 185
+Called 12 times
+Total time:   0.001077
+ Self time:   0.000690
+
+count  total (s)   self (s)
+                              " setting the statusline is disabled,
+                              " either globally, per window, or per buffer
+                              " w:airline_disabled is deprecated!
+   12   0.001030   0.000643   return get(g:, 'airline_disable_statusline', 0) || airline#util#getwinvar(a:winnr, 'airline_disable_statusline', 0) || airline#util#getwinvar(a:winnr, 'airline_disabled', 0) || airline#util#getbufvar(winbufnr(a:winnr), 'airline_disable_statusline', 0)
+
+FUNCTION  FugitiveVimPath()
+    Defined: ~/.vim/plugged/vim-fugitive/plugin/fugitive.vim line 301
+Called 33 times
+Total time:   0.000304
+ Self time:   0.000304
+
+count  total (s)   self (s)
+   33              0.000127   if exists('+shellslash') && !&shellslash
+                                return tr(a:path, '/', '\')
+   33              0.000020   else
+   33              0.000041     return a:path
+                              endif
+
+FUNCTION  <SNR>53_exists_file()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/utility.vim line 218
+Called 6 times
+Total time:   0.001908
+ Self time:   0.000507
+
+count  total (s)   self (s)
+    6   0.001902   0.000502   return filereadable(s:abs_path(a:bufnr, 0))
+
+FUNCTION  airline#highlighter#add_separator()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/highlighter.vim line 220
+Called 40 times
+Total time:   0.051402
+ Self time:   0.001667
+
+count  total (s)   self (s)
+   40              0.000463   let s:separators[a:from.a:to] = [a:from, a:to, a:inverse]
+   40   0.050898   0.001162   call <sid>exec_separator({}, a:from, a:to, a:inverse, '')
+
+FUNCTION  airline#util#wrap()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/util.vim line 42
+Called 374 times
+Total time:   0.003494
+ Self time:   0.002884
+
+count  total (s)   self (s)
+  374   0.002252   0.001641   if a:minwidth > 0 && airline#util#winwidth() < a:minwidth
+                                return ''
+  374              0.000182   endif
+  374              0.000441   return a:text
+
+FUNCTION  FugitiveGitDir()
+    Defined: ~/.vim/plugged/vim-fugitive/plugin/fugitive.vim line 11
+Called 66 times
+Total time:   0.002457
+ Self time:   0.002221
+
+count  total (s)   self (s)
+   66              0.000280   if !a:0 || type(a:1) == type(0) && a:1 < 0
+   33              0.000086     if exists('g:fugitive_event')
+                                  return g:fugitive_event
+   33              0.000020     endif
+   33              0.000126     let dir = get(b:, 'git_dir', '')
+   33              0.000151     if empty(dir) && (empty(bufname('')) || &buftype =~# '^\%(nofile\|acwrite\|quickfix\|prompt\)$')
+                                  return FugitiveExtractGitDir(getcwd())
+   33              0.000018     endif
+   33              0.000035     return dir
+   33              0.000087   elseif type(a:1) == type(0)
+                                return getbufvar(a:1, 'git_dir')
+   33              0.000088   elseif type(a:1) == type('')
+   33   0.000699   0.000463     return substitute(s:Slash(a:1), '/$', '', '')
+                              else
+                                return ''
+                              endif
+
+FUNCTION  gitgutter#debug#log()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/debug.vim line 80
+Called 6 times
+Total time:   0.000591
+ Self time:   0.000591
+
+count  total (s)   self (s)
+    6              0.000016   if g:gitgutter_log
+                                if s:new_log_session && gitgutter#async#available()
+                                  if exists('*ch_logfile')
+                                    call ch_logfile(s:channel_log, 'w')
+                                  endif
+                                endif
+                            
+                                execute 'redir >> '.s:log_file
+                                  if s:new_log_session
+                                    let s:start = reltime()
+                                    silent echo "\n==== start log session ===="
+                                  endif
+                            
+                                  let elapsed = reltimestr(reltime(s:start)).' '
+                                  silent echo ''
+                                  " callers excluding this function
+                                  silent echo elapsed.expand('<sfile>')[:-22].':'
+                                  silent echo elapsed.s:format_for_log(a:message)
+                                  if a:0 && !empty(a:1)
+                                    for msg in a:000
+                                      silent echo elapsed.s:format_for_log(msg)
+                                    endfor
+                                  endif
+                                redir END
+                            
+                                let s:new_log_session = 0
+    6              0.000005   endif
+
+FUNCTION  313()
+    Defined: ~/.vim/plugged/undotree/autoload/undotree.vim line 560
+Called 1 time
+Total time:   0.000135
+ Self time:   0.000007
+
+count  total (s)   self (s)
+    1   0.000133   0.000006     if !self.IsVisible()
+    1              0.000001         return
+                                endif
+                                " do nothing if we're in the undotree or diff panel
+                                if exists('b:isUndotreeBuffer')
+                                    return
+                                endif
+                                if (&bt != '' && &bt != 'acwrite') || (&modifiable == 0) || (mode() != 'n')
+                                    if &bt == 'quickfix' || &bt == 'nofile'
+                                        "Do nothing for quickfix and q:
+                                        call s:log("undotree.Update() ignore quickfix")
+                                        return
+                                    endif
+                                    if self.targetBufnr == bufnr('%') && self.targetid == w:undotree_id
+                                        call s:log("undotree.Update() invalid buffer NOupdate")
+                                        return
+                                    endif
+                                    let emptybuf = 1 "This is not a valid buffer, could be help or something.
+                                    call s:log("undotree.Update() invalid buffer update")
+                                else
+                                    let emptybuf = 0
+                                    "update undotree,set focus
+                                    if self.targetBufnr == bufnr('%')
+                                        let self.targetid = w:undotree_id
+                                        let newrawtree = undotree()
+                                        if self.rawtree == newrawtree
+                                            return
+                                        endif
+                            
+                                        " same buffer, but seq changed.
+                                        if newrawtree.seq_last == self.seq_last
+                                            call s:log("undotree.Update() update seqs")
+                                            let self.rawtree = newrawtree
+                                            call self.ConvertInput(0) "only update seqs.
+                                            if (self.seq_cur == self.seq_cur_bak) &&(self.seq_curhead == self.seq_curhead_bak)&&(self.seq_newhead == self.seq_newhead_bak)&&(self.save_last == self.save_last_bak)
+                                                return
+                                            endif
+                                            call self.SetFocus()
+                                            call self.MarkSeqs()
+                                            call self.UpdateDiff()
+                                            return
+                                        endif
+                                    endif
+                                endif
+                                call s:log("undotree.Update() update whole tree")
+                            
+                                let self.targetBufnr = bufnr('%')
+                                let self.targetid = w:undotree_id
+                                if emptybuf " Show an empty undo tree instead of do nothing.
+                                    let self.rawtree = {'seq_last':0,'entries':[],'time_cur':0,'save_last':0,'synced':1,'save_cur':0,'seq_cur':0}
+                                else
+                                    let self.rawtree = undotree()
+                                endif
+                                let self.seq_last = self.rawtree.seq_last
+                                let self.seq_cur = -1
+                                let self.seq_curhead = -1
+                                let self.seq_newhead = -1
+                                call self.ConvertInput(1) "update all.
+                                call self.Render()
+                                call self.SetFocus()
+                                call self.Draw()
+                                call self.MarkSeqs()
+                                call self.UpdateDiff()
+
+FUNCTION  <SNR>53_dir()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/utility.vim line 209
+Called 9 times
+Total time:   0.002617
+ Self time:   0.000364
+
+count  total (s)   self (s)
+    9   0.002610   0.000357   return gitgutter#utility#shellescape(fnamemodify(s:abs_path(a:bufnr, 0), ':h'))
+
+FUNCTION  <SNR>25_on_window_changed()
+    Defined: ~/.vim/plugged/vim-airline/plugin/airline.vim line 59
+Called 1 time
+Total time:   0.014284
+ Self time:   0.000062
+
+count  total (s)   self (s)
+                              " don't trigger for Vim popup windows
+    1              0.000002   if &buftype is# 'popup'
+                                return
+    1              0.000000   endif
+                            
+    1              0.000002   if pumvisible() && (!&previewwindow || g:airline_exclude_preview)
+                                " do not trigger for previewwindows
+                                return
+    1              0.000000   endif
+    1              0.000002   let s:active_winnr = winnr()
+                              " Handle each window only once, since we might come here several times for
+                              " different autocommands.
+    1              0.000008   let l:key = [bufnr('%'), s:active_winnr, winnr('$'), tabpagenr(), &ft]
+    1              0.000004   if get(g:, 'airline_last_window_changed', []) == l:key && &stl is# '%!airline#statusline('.s:active_winnr.')' && &ft !~? 'gitcommit'
+                                " fugitive is special, it changes names and filetypes several times,
+                                " make sure the caching does not get into its way
+                                return
+    1              0.000000   endif
+    1              0.000004   let g:airline_last_window_changed = l:key
+    1   0.000033   0.000009   call s:init()
+    1   0.014219   0.000020   call airline#update_statusline()
+
+FUNCTION  airline#util#getwinvar()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/util.vim line 82
+Called 104 times
+Total time:   0.000970
+ Self time:   0.000970
+
+count  total (s)   self (s)
+  104              0.000829     return getwinvar(a:winnr, a:key, a:def)
+
+FUNCTION  airline#extensions#whitespace#check()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/whitespace.vim line 62
+Called 33 times
+Total time:   0.006355
+ Self time:   0.004837
+
+count  total (s)   self (s)
+   33              0.000148   let max_lines = get(g:, 'airline#extensions#whitespace#max_lines', 20000)
+   33              0.000323   if &readonly || !&modifiable || !s:enabled || line('$') > max_lines || get(b:, 'airline_whitespace_disabled', 0)
+                                return ''
+   33              0.000015   endif
+   33              0.000419   let skip_check_ft = extend(s:skip_check_ft, get(g:, 'airline#extensions#whitespace#skip_indent_check_ft', {}), 'force')
+                            
+   33              0.000120   if !exists('b:airline_whitespace_check')
+                                let b:airline_whitespace_check = ''
+                                let checks = get(b:, 'airline_whitespace_checks', get(g:, 'airline#extensions#whitespace#checks', s:default_checks))
+                            
+                                let trailing = 0
+                                let check = 'trailing'
+                                if index(checks, check) > -1 && index(get(skip_check_ft, &ft, []), check) < 0
+                                  try
+                                    let regexp = get(g:, 'airline#extensions#whitespace#trailing_regexp', '\s$')
+                                    let trailing = search(regexp, 'nw')
+                                  catch
+                                    call airline#util#warning(printf('Whitespace: error occurred evaluating "%s"', regexp))
+                                    echomsg v:exception
+                                    return ''
+                                  endtry
+                                endif
+                            
+                                let mixed = 0
+                                let check = 'indent'
+                                if index(checks, check) > -1 && index(get(skip_check_ft, &ft, []), check) < 0
+                                  let mixed = s:check_mixed_indent()
+                                endif
+                            
+                                let mixed_file = ''
+                                let check = 'mixed-indent-file'
+                                if index(checks, check) > -1 && index(get(skip_check_ft, &ft, []), check) < 0
+                                  let mixed_file = s:check_mixed_indent_file()
+                                endif
+                            
+                                let long = 0
+                                if index(checks, 'long') > -1 && &tw > 0
+                                  let long = search('\%>'.&tw.'v.\+', 'nw')
+                                endif
+                            
+                                let conflicts = 0
+                                if index(checks, 'conflicts') > -1
+                                  let conflicts = s:conflict_marker()
+                                endif
+                            
+                                if trailing != 0 || mixed != 0 || long != 0 || !empty(mixed_file) || conflicts != 0
+                                  let b:airline_whitespace_check = s:symbol
+                                  if strlen(s:symbol) > 0
+                                    let space = (g:airline_symbols.space)
+                                  else
+                                    let space = ''
+                                  endif
+                            
+                                  if s:show_message
+                                    if trailing != 0
+                                      let trailing_fmt = get(g:, 'airline#extensions#whitespace#trailing_format', '[%s]trailing')
+                                      let b:airline_whitespace_check .= space.printf(trailing_fmt, trailing)
+                                    endif
+                                    if mixed != 0
+                                      let mixed_indent_fmt = get(g:, 'airline#extensions#whitespace#mixed_indent_format', '[%s]mixed-indent')
+                                      let b:airline_whitespace_check .= space.printf(mixed_indent_fmt, mixed)
+                                    endif
+                                    if long != 0
+                                      let long_fmt = get(g:, 'airline#extensions#whitespace#long_format', '[%s]long')
+                                      let b:airline_whitespace_check .= space.printf(long_fmt, long)
+                                    endif
+                                    if !empty(mixed_file)
+                                      let mixed_indent_file_fmt = get(g:, 'airline#extensions#whitespace#mixed_indent_file_format', '[%s]mix-indent-file')
+                                      let b:airline_whitespace_check .= space.printf(mixed_indent_file_fmt, mixed_file)
+                                    endif
+                                    if conflicts != 0
+                                      let conflicts_fmt = get(g:, 'airline#extensions#whitespace#conflicts_format', '[%s]conflicts')
+                                      let b:airline_whitespace_check .= space.printf(conflicts_fmt, conflicts)
+                                    endif
+                                  endif
+                                endif
+   33              0.000017   endif
+   33   0.001905   0.000387   return airline#util#shorten(b:airline_whitespace_check, 120, 9)
+
+FUNCTION  airline#extensions#po#apply()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/po.vim line 51
+Called 4 times
+Total time:   0.000054
+ Self time:   0.000054
+
+count  total (s)   self (s)
+    4              0.000021   if &ft ==# 'po'
+                                call airline#extensions#prepend_to_section('z', '%{airline#extensions#po#stats()}')
+                                " Also reset the cache variable, if a window has been split, e.g. the winwidth changed
+                                autocmd airline BufWritePost * unlet! b:airline_po_stats
+                                autocmd airline WinEnter * call airline#extensions#po#on_winenter()
+    4              0.000003   endif
+
+FUNCTION  <SNR>93_get_section()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/default.vim line 20
+Called 64 times
+Total time:   0.011665
+ Self time:   0.010308
+
+count  total (s)   self (s)
+   64              0.000446   if has_key(s:section_truncate_width, a:key)
+   44   0.002050   0.001373     if airline#util#winwidth(a:winnr) < s:section_truncate_width[a:key]
+                                  return ''
+   44              0.000029     endif
+   64              0.000038   endif
+   64              0.000210   let spc = g:airline_symbols.space
+   64              0.000581   if !exists('g:airline_section_{a:key}')
+                                return ''
+   64              0.000066   endif
+   64   0.002865   0.002185   let text = airline#util#getwinvar(a:winnr, 'airline_section_'.a:key, g:airline_section_{a:key})
+   64              0.003954   let [prefix, suffix] = [get(a:000, 0, '%('.spc), get(a:000, 1, spc.'%)')]
+   64              0.000972   return empty(text) ? '' : prefix.text.suffix
+
+FUNCTION  gitgutter#hunk#hunks()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/hunk.vim line 10
+Called 3 times
+Total time:   0.000095
+ Self time:   0.000051
+
+count  total (s)   self (s)
+    3   0.000079   0.000035   return gitgutter#utility#getbufvar(a:bufnr, 'hunks', [])
+
+FUNCTION  <SNR>53_winshell()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/utility.vim line 68
+Called 3 times
+Total time:   0.000148
+ Self time:   0.000148
+
+count  total (s)   self (s)
+    3              0.000139   return &shell =~? 'cmd' || exists('+shellslash') && !&shellslash
+
+FUNCTION  <SNR>25_init()
+    Defined: ~/.vim/plugged/vim-airline/plugin/airline.vim line 15
+Called 1 time
+Total time:   0.000024
+ Self time:   0.000024
+
+count  total (s)   self (s)
+    1              0.000007   if s:airline_initialized
+    1              0.000002     return
+                              endif
+                              let s:airline_initialized = 1
+                            
+                              call airline#extensions#load()
+                              call airline#init#sections()
+                            
+                              let s:theme_in_vimrc = exists('g:airline_theme')
+                              if s:theme_in_vimrc
+                                try
+                                  if g:airline_theme is# 'random'
+                                    let g:airline_theme=s:random_theme()
+                                  endif
+                                  let palette = g:airline#themes#{g:airline_theme}#palette
+                                catch
+                                  call airline#util#warning(printf('Could not resolve airline theme "%s". Themes have been migrated to github.com/vim-airline/vim-airline-themes.', g:airline_theme))
+                                  let g:airline_theme = 'dark'
+                                endtry
+                                try
+                                  silent call airline#switch_theme(g:airline_theme)
+                                catch
+                                  call airline#util#warning(printf('Could not find airline theme "%s".', g:airline_theme))
+                                  let g:airline_theme = 'dark'
+                                  silent call airline#switch_theme(g:airline_theme)
+                                endtry
+                              else
+                                let g:airline_theme = 'dark'
+                                silent call s:on_colorscheme_changed()
+                              endif
+                            
+                              call airline#util#doautocmd('AirlineAfterInit')
+
+FUNCTION  <SNR>97_process_hunk()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/diff.vim line 241
+Called 18 times
+Total time:   0.006750
+ Self time:   0.002522
+
+count  total (s)   self (s)
+   18              0.000072   let modifications = []
+   18              0.000067   let from_line  = a:hunk[0]
+   18              0.000039   let from_count = a:hunk[1]
+   18              0.000037   let to_line    = a:hunk[2]
+   18              0.000034   let to_count   = a:hunk[3]
+                            
+   18   0.000395   0.000294   if s:is_added(from_count, to_count)
+   12   0.000885   0.000262     call s:process_added(modifications, from_count, to_count, to_line)
+   12   0.003129   0.000273     call gitgutter#hunk#increment_lines_added(a:bufnr, to_count)
+                            
+    6   0.000178   0.000146   elseif s:is_removed(from_count, to_count)
+    6   0.000172   0.000091     call s:process_removed(modifications, from_count, to_count, to_line)
+    6   0.000680   0.000147     call gitgutter#hunk#increment_lines_removed(a:bufnr, from_count)
+                            
+                              elseif s:is_modified(from_count, to_count)
+                                call s:process_modified(modifications, from_count, to_count, to_line)
+                                call gitgutter#hunk#increment_lines_modified(a:bufnr, to_count)
+                            
+                              elseif s:is_modified_and_added(from_count, to_count)
+                                call s:process_modified_and_added(modifications, from_count, to_count, to_line)
+                                call gitgutter#hunk#increment_lines_added(a:bufnr, to_count - from_count)
+                                call gitgutter#hunk#increment_lines_modified(a:bufnr, from_count)
+                            
+                              elseif s:is_modified_and_removed(from_count, to_count)
+                                call s:process_modified_and_removed(modifications, from_count, to_count, to_line)
+                                call gitgutter#hunk#increment_lines_modified(a:bufnr, to_count)
+                                call gitgutter#hunk#increment_lines_removed(a:bufnr, from_count - to_count)
+                            
+   18              0.000020   endif
+   18              0.000037   return modifications
+
+FUNCTION  undotree#UndotreeUpdate()
+    Defined: ~/.vim/plugged/undotree/autoload/undotree.vim line 1342
+Called 1 time
+Total time:   0.000163
+ Self time:   0.000029
+
+count  total (s)   self (s)
+    1              0.000003     if !exists('t:undotree')
+                                    return
+    1              0.000000     endif
+    1              0.000002     if !exists('w:undotree_id')
+                                    let w:undotree_id = 'id_'.s:getUniqueID()
+                                    call s:log("Unique window id assigned: ".w:undotree_id)
+    1              0.000000     endif
+                                " assume window layout won't change during updating.
+    1              0.000002     let thiswinnr = winnr()
+    1   0.000142   0.000007     call t:undotree.Update()
+                                " focus moved
+    1              0.000002     if winnr() != thiswinnr
+                                    call s:exec("norm! ".thiswinnr."\<c-w>\<c-w>")
+    1              0.000000     endif
+
+FUNCTION  airline#extensions#hunks#get_raw_hunks()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/hunks.vim line 76
+Called 33 times
+Total time:   0.004784
+ Self time:   0.001363
+
+count  total (s)   self (s)
+   33              0.000207   if !exists('b:source_func') || get(b:, 'source_func', '') is# 's:get_hunks_empty'
+                                if get(g:, 'loaded_signify') && sy#buffer_is_active()
+                                  let b:source_func = 's:get_hunks_signify'
+                                elseif exists('*GitGutterGetHunkSummary')
+                                  let b:source_func = 's:get_hunks_gitgutter'
+                                elseif exists('*changes#GetStats')
+                                  let b:source_func = 's:get_hunks_changes'
+                                elseif exists('*quickfixsigns#vcsdiff#GetHunkSummary')
+                                  let b:source_func = 'quickfixsigns#vcsdiff#GetHunkSummary'
+                                elseif s:coc_git_enabled()
+                                  let b:source_func = 's:get_hunks_coc'
+                                else
+                                  let b:source_func = 's:get_hunks_empty'
+                                endif
+   33              0.000015   endif
+   33   0.003856   0.000435   return {b:source_func}()
+
+FUNCTION  gitgutter#hunk#increment_lines_added()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/hunk.vim line 28
+Called 12 times
+Total time:   0.002856
+ Self time:   0.001074
+
+count  total (s)   self (s)
+   12   0.001904   0.000557   let summary = gitgutter#hunk#summary(a:bufnr)
+   12              0.000058   let summary[0] += a:count
+   12   0.000869   0.000434   call gitgutter#utility#setbufvar(a:bufnr, 'summary', summary)
+
+FUNCTION  <SNR>83_update_git_branch()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/branch.vim line 87
+Called 33 times
+Total time:   0.033948
+ Self time:   0.002927
+
+count  total (s)   self (s)
+   33   0.000880   0.000505   call airline#util#ignore_next_focusgain()
+   33   0.000654   0.000332   if !airline#util#has_fugitive() && !airline#util#has_gina()
+                                let s:vcs_config['git'].branch = ''
+                                return
+   33              0.000014   endif
+   33   0.000463   0.000231   if airline#util#has_fugitive()
+   33   0.030224   0.000555     let s:vcs_config['git'].branch = exists("*FugitiveHead") ? FugitiveHead(s:sha1size) : fugitive#head(s:sha1size)
+   33   0.000913   0.000491     if s:vcs_config['git'].branch is# 'master' && airline#util#winwidth() < 81
+                                  " Shorten default a bit
+                                  let s:vcs_config['git'].branch='mas'
+   33              0.000021     endif
+                              else
+                                try
+                                  let g:gina#component#repo#commit_length = s:sha1size
+                                  let s:vcs_config['git'].branch = gina#component#repo#branch()
+                                catch
+                                endtry
+                                if s:vcs_config['git'].branch is# 'master' && airline#util#winwidth() < 81
+                                  " Shorten default a bit
+                                  let s:vcs_config['git'].branch='mas'
+                                endif
+   33              0.000015   endif
+
+FUNCTION  <SNR>53_unc_path()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/utility.vim line 169
+Called 3 times
+Total time:   0.000772
+ Self time:   0.000065
+
+count  total (s)   self (s)
+    3   0.000770   0.000063   return s:abs_path(a:bufnr, 0) =~ '^\\\\'
+
+FUNCTION  288()
+    Defined: ~/.vim/plugged/undotree/autoload/undotree.vim line 232
+Called 1 time
+Total time:   0.000127
+ Self time:   0.000127
+
+count  total (s)   self (s)
+    1              0.000123     if bufwinnr(self.bufname) != -1
+                                    return 1
+    1              0.000001     else
+    1              0.000001         return 0
+                                endif
+
+FUNCTION  airline#update_statusline_inactive()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline.vim line 156
+Called 4 times
+Total time:   0.044364
+ Self time:   0.000730
+
+count  total (s)   self (s)
+    4   0.000535   0.000189   if airline#util#stl_disabled(winnr())
+                                return
+    4              0.000005   endif
+    8              0.000034   for nr in a:range
+    4   0.000274   0.000050     if airline#util#stl_disabled(nr)
+                                  continue
+    4              0.000004     endif
+    4              0.000035     call setwinvar(nr, 'airline_active', 0)
+    4              0.000036     let context = { 'winnr': nr, 'active': 0, 'bufnr': winbufnr(nr) }
+    4              0.000017     if get(g:, 'airline_inactive_alt_sep', 0)
+                                  call extend(context, { 'left_sep': g:airline_left_alt_sep, 'right_sep': g:airline_right_alt_sep }, 'keep')
+    4              0.000004     endif
+    4   0.043225   0.000161     call s:invoke_funcrefs(context, s:inactive_funcrefs)
+    8              0.000027   endfor
+
+FUNCTION  280()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/builder.vim line 17
+Called 48 times
+Total time:   0.000372
+ Self time:   0.000372
+
+count  total (s)   self (s)
+   48              0.000329   call add(self._sections, [a:group, a:contents])
+
+FUNCTION  gitgutter#all()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter.vim line 3
+Called 3 times
+Total time:   0.049834
+ Self time:   0.001399
+
+count  total (s)   self (s)
+    3              0.000022   let visible = tabpagebuflist()
+                            
+   15              0.000134   for bufnr in range(1, bufnr('$') + 1)
+   12              0.000068     if buflisted(bufnr)
+    3              0.000409       let file = expand('#'.bufnr.':p')
+    3              0.000015       if !empty(file)
+    3              0.000013         if index(visible, bufnr) != -1
+    3   0.048727   0.000291           call gitgutter#process_buffer(bufnr, a:force)
+                                    elseif a:force
+                                      call s:reset_tick(bufnr)
+    3              0.000004         endif
+    3              0.000003       endif
+   12              0.000027     endif
+   15              0.000056   endfor
+
+FUNCTION  airline#extensions#term#inactive_apply()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/term.vim line 24
+Called 4 times
+Total time:   0.000107
+ Self time:   0.000107
+
+count  total (s)   self (s)
+    4              0.000031   if getbufvar(a:2.bufnr, '&buftype') == 'terminal'
+                                let spc = g:airline_symbols.space
+                                call a:1.add_section('airline_a', spc.'TERMINAL'.spc)
+                                call a:1.add_section('airline_b', spc.'%f')
+                                let neoterm_id = getbufvar(a:2.bufnr, 'neoterm_id')
+                                if neoterm_id != ''
+                                  call a:1.add_section('airline_c', spc.'neoterm_'.neoterm_id.spc)
+                                endif
+                                return 1
+    4              0.000002   endif
+
+FUNCTION  <SNR>80_exec_separator()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/highlighter.vim line 189
+Called 140 times
+Total time:   0.131836
+ Self time:   0.014637
+
+count  total (s)   self (s)
+  140              0.000388   if pumvisible()
+                                return
+  140              0.000088   endif
+  140              0.000665   let group = a:from.'_to_'.a:to.a:suffix
+  140   0.038781   0.005264   let l:from = airline#themes#get_highlight(a:from.a:suffix)
+  140   0.040195   0.002555   let l:to = airline#themes#get_highlight(a:to.a:suffix)
+  140              0.000243   if a:inverse
+   48              0.000390     let colors = [ l:from[1], l:to[1], l:from[3], l:to[3] ]
+   92              0.000064   else
+   92              0.000489     let colors = [ l:to[1], l:from[1], l:to[3], l:from[3] ]
+  140              0.000086   endif
+  140              0.000750   let a:dict[group] = colors
+  140   0.048743   0.002701   call airline#highlighter#exec(group, colors)
+
+FUNCTION  FugitiveHead()
+    Defined: ~/.vim/plugged/vim-fugitive/plugin/fugitive.vim line 128
+Called 33 times
+Total time:   0.029669
+ Self time:   0.001049
+
+count  total (s)   self (s)
+   33   0.001153   0.000361   let dir = FugitiveGitDir(a:0 > 1 ? a:2 : -1)
+   33              0.000086   if empty(dir)
+                                return ''
+   33              0.000015   endif
+   33   0.028340   0.000512   return fugitive#Head(a:0 ? a:1 : 0, dir)
+
+FUNCTION  <SNR>92_section_is_empty()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/builder.vim line 185
+Called 56 times
+Total time:   0.001719
+ Self time:   0.001719
+
+count  total (s)   self (s)
+   56              0.000148   let start=1
+                            
+                              " do not check for inactive windows or the tabline
+   56              0.000134   if a:self._context.active == 0
+   20              0.000027     return 0
+   36              0.000758   elseif get(a:self._context, 'tabline', 0)
+                                return 0
+   36              0.000025   endif
+                            
+                              " only check, if airline#skip_empty_sections == 1
+   36              0.000276   if get(g:, 'airline_skip_empty_sections', 0) == 0
+   36              0.000040     return 0
+                              endif
+                            
+                              " only check, if airline#skip_empty_sections == 1
+                              if get(w:, 'airline_skip_empty_sections', -1) == 0
+                                return 0
+                              endif
+                              " assume accents sections to be never empty
+                              " (avoides, that on startup the mode message becomes empty)
+                              if match(a:content, '%#__accent_[^#]*#.*__restore__#') > -1
+                                return 0
+                              endif
+                              if empty(a:content)
+                                return 1
+                              endif
+                              let list=matchlist(a:content, '%{\zs.\{-}\ze}', 1, start)
+                              if empty(list)
+                                return 0 " no function in statusline text
+                              endif
+                              while len(list) > 0
+                                let expr = list[0]
+                                try
+                                  " catch all exceptions, just in case
+                                  if !empty(eval(expr))
+                                    return 0
+                                  endif
+                                catch
+                                  return 0
+                                endtry
+                                let start += 1
+                                let list=matchlist(a:content, '%{\zs.\{-}\ze}', 1, start)
+                              endw
+                              return 1
+
+FUNCTION  airline#highlighter#highlight()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/highlighter.vim line 243
+Called 10 times
+Total time:   0.220624
+ Self time:   0.034190
+
+count  total (s)   self (s)
+   10              0.000113   let bufnr = a:0 ? a:1 : ''
+   10              0.000044   let p = g:airline#themes#{g:airline_theme}#palette
+                            
+                              " draw the base mode, followed by any overrides
+   10              0.000088   let mapped = map(a:modes, 'v:val == a:modes[0] ? v:val : a:modes[0]."_".v:val')
+   10              0.000028   let suffix = a:modes[0] == 'inactive' ? '_inactive' : ''
+   10              0.000019   let airline_grouplist = []
+   10              0.000080   let buffers_in_tabpage = sort(tabpagebuflist())
+   10              0.000031   if exists("*uniq")
+   10              0.000045     let buffers_in_tabpage = uniq(buffers_in_tabpage)
+   10              0.000007   endif
+                              " mapped might be something like ['normal', 'normal_modified']
+                              " if a group is in both modes available, only define the second
+                              " that is how this was done previously overwrite the previous definition
+   20              0.000045   for mode in reverse(mapped)
+   10              0.000062     if exists('g:airline#themes#{g:airline_theme}#palette[mode]')
+   10              0.000041       let dict = g:airline#themes#{g:airline_theme}#palette[mode]
+  200              0.000562       for kvp in items(dict)
+  190              0.000422         let mode_colors = kvp[1]
+  190              0.000334         let name = kvp[0]
+  190              0.000575         if name is# 'airline_c' && !empty(bufnr) && suffix is# '_inactive'
+    1              0.000002           let name = 'airline_c'.bufnr
+  190              0.000113         endif
+                                    " do not re-create highlighting for buffers that are no longer visible
+                                    " in the current tabpage
+  190              0.001912         if name =~# 'airline_c\d\+'
+   31              0.000264           let bnr = matchstr(name, 'airline_c\zs\d\+') + 0
+   31              0.000097           if bnr > 0 && index(buffers_in_tabpage, bnr) == -1
+   20              0.000016             continue
+   11              0.000006           endif
+  159              0.001063         elseif (name =~# '_to_') || (name[0:10] is# 'airline_tab' && !empty(suffix))
+                                      " group will be redefined below at exec_separator
+                                      " or is not needed for tabline with '_inactive' suffix
+                                      " since active flag is 1 for builder)
+   70              0.000089           continue
+  100              0.000056         endif
+  100   0.002428   0.001354         if s:group_not_done(airline_grouplist, name.suffix)
+  100   0.041426   0.001490           call airline#highlighter#exec(name.suffix, mode_colors)
+  100              0.000075         endif
+                            
+  100              0.000294         if !has_key(p, 'accents') 
+                                      " work around a broken installation
+                                      " shouldn't actually happen, p should always contain accents
+                                      continue
+  100              0.000068         endif
+                            
+  300              0.000773         for accent in keys(s:accents)
+  200              0.000618           if !has_key(p.accents, accent)
+                                        continue
+  200              0.000116           endif
+  200              0.001092           let colors = copy(mode_colors)
+  200              0.000589           if p.accents[accent][0] != ''
+  100              0.000278             let colors[0] = p.accents[accent][0]
+  200              0.000124           endif
+  200              0.000476           if p.accents[accent][2] != ''
+                                        let colors[2] = p.accents[accent][2]
+  200              0.000105           endif
+  200              0.000424           if len(colors) >= 5
+  200              0.000880             let colors[4] = get(p.accents[accent], 4, '')
+                                      else
+                                        call add(colors, get(p.accents[accent], 4, ''))
+  200              0.000119           endif
+  200   0.004790   0.002777           if s:group_not_done(airline_grouplist, name.suffix.'_'.accent)
+  200   0.065193   0.003882             call airline#highlighter#exec(name.suffix.'_'.accent, colors)
+  200              0.000153           endif
+  300              0.000219         endfor
+  110              0.000066       endfor
+                            
+   10              0.000019       if empty(s:separators)
+                                    " nothing to be done
+                                    continue
+   10              0.000005       endif
+                                  " TODO: optimize this
+  110              0.000496       for sep in items(s:separators)
+                                    " we cannot check, that the group already exists, else the separators
+                                    " might not be correctly defined. But perhaps we can skip above groups
+                                    " that match the '_to_' name, because they would be redefined here...
+  100   0.084213   0.002113         call <sid>exec_separator(dict, sep[1][0], sep[1][1], sep[1][2], suffix)
+  110              0.000116       endfor
+   10              0.000006     endif
+   20              0.000921   endfor
+
+FUNCTION  coc#rpc#ready()
+    Defined: ~/.vim/plugged/coc.nvim/autoload/coc/rpc.vim line 31
+Called 7 times
+Total time:   0.000083
+ Self time:   0.000083
+
+count  total (s)   self (s)
+    7              0.000046   if empty(s:client) || s:client['running'] == 0
+                                return 0
+    7              0.000005   endif
+    7              0.000008   return 1
+
+FUNCTION  airline#parts#ffenc()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/parts.vim line 108
+Called 44 times
+Total time:   0.001481
+ Self time:   0.001481
+
+count  total (s)   self (s)
+   44              0.000220   let expected = get(g:, 'airline#parts#ffenc#skip_expected_string', '')
+   44              0.000106   let bomb     = &l:bomb ? '[BOM]' : ''
+   44              0.000553   let ff       = strlen(&ff) ? '['.&ff.']' : ''
+   44              0.000252   if expected is# &fenc.bomb.ff
+                                return ''
+   44              0.000029   else
+   44              0.000168     return &fenc.bomb.ff
+                              endif
+
+FUNCTION  gitgutter#utility#shellescape()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/utility.vim line 73
+Called 15 times
+Total time:   0.001317
+ Self time:   0.001169
+
+count  total (s)   self (s)
+   15              0.000281   if a:arg =~ '^[A-Za-z0-9_/.-]\+$'
+   12              0.000031     return a:arg
+    3   0.000900   0.000751   elseif s:winshell()
+                                return '"' . substitute(substitute(a:arg, '"', '""', 'g'), '%', '"%"', 'g') . '"'
+    3              0.000009   else
+    3              0.000029     return shellescape(a:arg)
+                              endif
+
+FUNCTION  airline#util#ignore_buf()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/util.vim line 136
+Called 44 times
+Total time:   0.001528
+ Self time:   0.001528
+
+count  total (s)   self (s)
+   44              0.000406   let pat = '\c\v'. get(g:, 'airline#ignore_bufadd_pat', ''). get(g:, 'airline#extensions#tabline#ignore_bufadd_pat',  '!|defx|gundo|nerd_tree|startify|tagbar|term://|undotree|vimfiler')
+   44              0.001060   return match(a:name, pat) > -1
+
+FUNCTION  <SNR>92_get_seperator()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/builder.vim line 158
+Called 32 times
+Total time:   0.056885
+ Self time:   0.002201
+
+count  total (s)   self (s)
+   32   0.017802   0.000643   if airline#builder#should_change_group(a:prev_group, a:group)
+   32   0.039041   0.001515     return s:get_transitioned_seperator(a:self, a:prev_group, a:group, a:side)
+                              else
+                                return a:side ? a:self._context.left_alt_sep : a:self._context.right_alt_sep
+                              endif
+
+FUNCTION  gitgutter#async#available()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/async.vim line 9
+Called 3 times
+Total time:   0.000012
+ Self time:   0.000012
+
+count  total (s)   self (s)
+    3              0.000009   return s:available
+
+FUNCTION  gitgutter#diff#parse_hunk()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/diff.vim line 217
+Called 18 times
+Total time:   0.000914
+ Self time:   0.000914
+
+count  total (s)   self (s)
+   18              0.000509   let matches = matchlist(a:line, s:hunk_re)
+   18              0.000057   if len(matches) > 0
+   18              0.000063     let from_line  = str2nr(matches[1])
+   18              0.000074     let from_count = (matches[2] == '') ? 1 : str2nr(matches[2])
+   18              0.000048     let to_line    = str2nr(matches[3])
+   18              0.000064     let to_count   = (matches[4] == '') ? 1 : str2nr(matches[4])
+   18              0.000058     return [from_line, from_count, to_line, to_count]
+                              else
+                                return []
+                              end
+
+FUNCTION  airline#builder#get_prev_group()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/builder.vim line 37
+Called 56 times
+Total time:   0.001157
+ Self time:   0.001157
+
+count  total (s)   self (s)
+   56              0.000176   let x = a:i - 1
+   64              0.000121   while x >= 0
+   56              0.000174     let group = a:sections[x][0]
+   56              0.000179     if group != '' && group != '|'
+   48              0.000080       return group
+    8              0.000006     endif
+    8              0.000012     let x = x - 1
+   16              0.000028   endwhile
+    8              0.000013   return ''
+
+FUNCTION  fugitive#Head()
+    Defined: ~/.vim/plugged/vim-fugitive/autoload/fugitive.vim line 495
+Called 33 times
+Total time:   0.027828
+ Self time:   0.005516
+
+count  total (s)   self (s)
+   33              0.000255   let dir = a:0 > 1 ? a:2 : s:Dir()
+   33              0.000074   if empty(dir)
+                                return ''
+   33              0.000015   endif
+   33   0.022683   0.000371   let file = fugitive#Find('.git/HEAD', dir)
+   33              0.001989   let ftime = getftime(file)
+   33              0.000079   if ftime == -1
+                                return ''
+   33              0.000254   elseif ftime != get(s:head_cache, dir, [-1])[0]
+    3              0.000184     let s:head_cache[dir] = [ftime, readfile(file)[0]]
+   33              0.000023   endif
+   33              0.000097   let head = s:head_cache[dir][1]
+   33              0.000287   if head =~# '^ref: '
+   33              0.001606     return substitute(head, '\C^ref: \%(refs/\%(heads/\|remotes/\|tags/\)\=\)\=', '', '')
+                              elseif head =~# '^\x\{40,\}$'
+                                let len = a:0 ? a:1 : 0
+                                return len < 0 ? head : len ? head[0:len-1] : ''
+                              else
+                                return ''
+                              endif
+
+FUNCTION  airline#util#ignore_next_focusgain()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/util.vim line 195
+Called 36 times
+Total time:   0.000397
+ Self time:   0.000397
+
+count  total (s)   self (s)
+   36              0.000197   if has('win32')
+                                " Setup an ignore for platforms that trigger FocusLost on calls to
+                                " system(). macvim (gui and terminal) and Linux terminal vim do not.
+                                let s:focusgained_ignore_time = localtime()
+   36              0.000025   endif
+
+FUNCTION  airline#parts#get()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/parts.vim line 49
+Called 66 times
+Total time:   0.000458
+ Self time:   0.000458
+
+count  total (s)   self (s)
+   66              0.000398   return get(s:parts, a:key, {})
+
+FUNCTION  airline#parts#paste()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/parts.vim line 63
+Called 33 times
+Total time:   0.000141
+ Self time:   0.000141
+
+count  total (s)   self (s)
+   33              0.000123   return g:airline_detect_paste && &paste ? g:airline_symbols.paste : ''
+
+FUNCTION  <SNR>13_Autocmd()
+    Defined: ~/.vim/plugged/coc.nvim/plugin/coc.vim line 212
+Called 7 times
+Total time:   0.001680
+ Self time:   0.000209
+
+count  total (s)   self (s)
+    7              0.000060   if !get(g:,'coc_workspace_initialized', 0)
+                                return
+    7              0.000011   endif
+    7   0.001578   0.000108   call coc#rpc#notify('CocAutocmd', a:000)
+
+FUNCTION  airline#update_statusline()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline.vim line 127
+Called 4 times
+Total time:   0.129030
+ Self time:   0.001444
+
+count  total (s)   self (s)
+    4   0.000596   0.000089   if airline#util#stl_disabled(winnr())
+                                return
+    4              0.000005   endif
+    4              0.000083   let range = filter(range(1, winnr('$')), 'v:val != winnr()')
+                              " create inactive statusline
+    4   0.045281   0.000917   call airline#update_statusline_inactive(range)
+                            
+    4              0.000014   unlet! w:airline_render_left w:airline_render_right
+    4              0.000085   exe 'unlet! ' 'w:airline_section_'. join(s:sections, ' w:airline_section_')
+                            
+                              " Now create the active statusline
+    4              0.000011   let w:airline_active = 1
+    4              0.000040   let context = { 'winnr': winnr(), 'active': 1, 'bufnr': winbufnr(winnr()) }
+    4   0.082877   0.000162   call s:invoke_funcrefs(context, g:airline_statusline_funcrefs)
+
+FUNCTION  airline#update_statusline_focuslost()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline.vim line 146
+Called 3 times
+Total time:   0.000156
+ Self time:   0.000156
+
+count  total (s)   self (s)
+    3              0.000085   if get(g:, 'airline_focuslost_inactive', 0)
+                                let bufnr=bufnr('%')
+                                call airline#highlighter#highlight_modified_inactive(bufnr)
+                                call airline#highlighter#highlight(['inactive'], bufnr)
+                                call airline#update_statusline_inactive(range(1, winnr('$')))
+    3              0.000006   endif
+
+FUNCTION  <SNR>100_reset_summary()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/hunk.vim line 24
+Called 3 times
+Total time:   0.000087
+ Self time:   0.000033
+
+count  total (s)   self (s)
+    3   0.000085   0.000031   call gitgutter#utility#setbufvar(a:bufnr, 'summary', [0,0,0])
+
+FUNCTION  <SNR>93_add_section()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/default.vim line 47
+Called 44 times
+Total time:   0.015139
+ Self time:   0.004067
+
+count  total (s)   self (s)
+   44              0.000688     let condition = (a:key is# "warning" || a:key is# "error") && (v:version == 704 && !has("patch1511"))
+                                " i have no idea why the warning section needs special treatment, but it's
+                                " needed to prevent separators from showing up
+   44   0.001966   0.000587     if ((a:key == 'error' || a:key == 'warning') && empty(s:get_section(a:context.winnr, a:key)))
+                                  return
+   44              0.000035     endif
+   44              0.000086     if condition
+                                  call a:builder.add_raw('%(')
+   44              0.000032     endif
+   44   0.011543   0.001850     call a:builder.add_section('airline_'.a:key, s:get_section(a:context.winnr, a:key))
+   44              0.000070     if condition
+                                  call a:builder.add_raw('%)')
+   44              0.000039     endif
+
+FUNCTION  <SNR>23_dopopd()
+    Defined: ~/.vim/plugged/fzf/plugin/fzf.vim line 494
+Called 1 time
+Total time:   0.000005
+ Self time:   0.000005
+
+count  total (s)   self (s)
+    1              0.000003   if !exists('w:fzf_pushd')
+    1              0.000001     return
+                              endif
+                            
+                              " FIXME: We temporarily change the working directory to 'dir' entry
+                              " of options dictionary (set to the current working directory if not given)
+                              " before running fzf.
+                              "
+                              " e.g. call fzf#run({'dir': '/tmp', 'source': 'ls', 'sink': 'e'})
+                              "
+                              " After processing the sink function, we have to restore the current working
+                              " directory. But doing so may not be desirable if the function changed the
+                              " working directory on purpose.
+                              "
+                              " So how can we tell if we should do it or not? A simple heuristic we use
+                              " here is that we change directory only if the current working directory
+                              " matches 'dir' entry. However, it is possible that the sink function did
+                              " change the directory to 'dir'. In that case, the user will have an
+                              " unexpected result.
+                              if s:fzf_getcwd() ==# w:fzf_pushd.dir && (!&autochdir || w:fzf_pushd.bufname ==# bufname(''))
+                                execute w:fzf_pushd.command s:escape(w:fzf_pushd.origin)
+                              endif
+                              unlet w:fzf_pushd
+
+FUNCTION  fugitive#CommonDir()
+    Defined: ~/.vim/plugged/vim-fugitive/autoload/fugitive.vim line 254
+Called 33 times
+Total time:   0.001193
+ Self time:   0.001193
+
+count  total (s)   self (s)
+   33              0.000116   if empty(a:dir)
+                                return ''
+   33              0.000019   endif
+   33              0.000127   if !has_key(s:commondirs, a:dir)
+                                if getfsize(a:dir . '/HEAD') < 10
+                                  let s:commondirs[a:dir] = ''
+                                elseif filereadable(a:dir . '/commondir')
+                                  let cdir = get(readfile(a:dir . '/commondir', 1), 0, '')
+                                  if cdir =~# '^/\|^\a:/'
+                                    let s:commondirs[a:dir] = s:Slash(FugitiveVimPath(cdir))
+                                  else
+                                    let s:commondirs[a:dir] = simplify(a:dir . '/' . cdir)
+                                  endif
+                                else
+                                  let s:commondirs[a:dir] = a:dir
+                                endif
+   33              0.000014   endif
+   33              0.000115   return s:commondirs[a:dir]
+
+FUNCTION  airline#parts#readonly()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/parts.vim line 89
+Called 44 times
+Total time:   0.002733
+ Self time:   0.001205
+
+count  total (s)   self (s)
+                              " only consider regular buffers (e.g. ones that represent actual files,
+                              " but not special ones like e.g. NERDTree)
+   44   0.002178   0.000650   if !empty(&buftype) || airline#util#ignore_buf(bufname('%'))
+                                return ''
+   44              0.000031   endif
+   44              0.000156   if &readonly && !filereadable(bufname('%'))
+                                return '[noperm]'
+   44              0.000029   else
+   44              0.000083     return &readonly ? g:airline_symbols.readonly : ''
+                              endif
+
+FUNCTION  <SNR>82_get_hunks_gitgutter()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/hunks.vim line 60
+Called 33 times
+Total time:   0.003421
+ Self time:   0.001051
+
+count  total (s)   self (s)
+   33   0.000797   0.000450   if !get(g:, 'gitgutter_enabled', 0) || s:is_branch_empty()
+    3              0.000002     return ''
+   30              0.000018   endif
+   30   0.002533   0.000509   return GitGutterGetHunkSummary()
+
+FUNCTION  airline#builder#should_change_group()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/builder.vim line 130
+Called 32 times
+Total time:   0.017159
+ Self time:   0.002823
+
+count  total (s)   self (s)
+   32              0.000118   if a:group1 == a:group2
+                                return 0
+   32              0.000021   endif
+   32   0.008361   0.000525   let color1 = airline#highlighter#get_highlight(a:group1)
+   32   0.008328   0.001829   let color2 = airline#highlighter#get_highlight(a:group2)
+   32              0.000075   if g:airline_gui_mode ==# 'gui'
+   32              0.000142     return color1[1] != color2[1] || color1[0] != color2[0]
+                              else
+                                return color1[3] != color2[3] || color1[2] != color2[2]
+                              endif
+
+FUNCTION  gitgutter#utility#setbufvar()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/utility.vim line 9
+Called 27 times
+Total time:   0.000850
+ Self time:   0.000850
+
+count  total (s)   self (s)
+   27              0.000139   let buffer = +a:buffer
+                              " Default value for getbufvar() was introduced in Vim 7.3.831.
+   27              0.000137   let ggvars = getbufvar(buffer, 'gitgutter')
+   27              0.000115   if type(ggvars) == type('')
+                                unlet ggvars
+                                let ggvars = {}
+                                call setbufvar(buffer, 'gitgutter', ggvars)
+   27              0.000029   endif
+   27              0.000148   let ggvars[a:varname] = a:val
+
+FUNCTION  <SNR>83_update_untracked()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/branch.vim line 192
+Called 33 times
+Total time:   0.018854
+ Self time:   0.018112
+
+count  total (s)   self (s)
+   33              0.010875   let file = expand("%:p")
+   33              0.002662   if empty(file) || isdirectory(file) || !empty(&buftype)
+                                return
+   33              0.000029   endif
+                            
+   33              0.000084   let needs_update = 1
+   33              0.000222   let vcs_checks   = get(g:, "airline#extensions#branch#vcs_checks", ["untracked", "dirty"])
+   99              0.000312   for vcs in keys(s:vcs_config)
+   66              0.000615     if file =~ s:vcs_config[vcs].exclude
+                                  " Skip check for files that live in the exclude directory
+                                  let needs_update = 0
+   66              0.000055     endif
+   66              0.000303     if has_key(s:vcs_config[vcs].untracked, file)
+   33              0.000057       let needs_update = 0
+   33   0.002282   0.001540       call airline#extensions#branch#update_untracked_config(file, vcs)
+   66              0.000061     endif
+   99              0.000134   endfor
+                            
+   33              0.000042   if !needs_update
+   33              0.000040     return
+                              endif
+                            
+                              for vcs in keys(s:vcs_config)
+                                " only check, for git, if fugitive is installed
+                                " and for 'hg' if lawrencium is installed, else skip
+                                if vcs is# 'git' && (!airline#util#has_fugitive() && !airline#util#has_gina())
+                                  continue
+                                elseif vcs is# 'mercurial' && !airline#util#has_lawrencium()
+                                  continue
+                                endif
+                                let config = s:vcs_config[vcs]
+                                " Note that asynchronous update updates s:vcs_config only, and only
+                                " s:update_untracked updates b:buffer_vcs_config. If s:vcs_config is
+                                " invalidated again before s:update_untracked is called, then we lose the
+                                " result of the previous call, i.e. the head string is not updated. It
+                                " doesn't happen often in practice, so we let it be.
+                                if index(vcs_checks, 'untracked') > -1
+                                  call airline#async#vcs_untracked(config, file, vcs)
+                                endif
+                                " Check clean state of repo
+                                if index(vcs_checks, 'dirty') > -1
+                                  call airline#async#vcs_clean(config.dirty, file, vcs)
+                                endif
+                              endfor
+
+FUNCTION  <SNR>98_Tree()
+    Defined: ~/.vim/plugged/vim-fugitive/autoload/fugitive.vim line 279
+Called 33 times
+Total time:   0.003098
+ Self time:   0.000362
+
+count  total (s)   self (s)
+   33   0.003073   0.000337   return a:0 ? FugitiveWorkTree(a:1) : FugitiveWorkTree()
+
+FUNCTION  <SNR>53_is_file_buffer()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/utility.vim line 63
+Called 6 times
+Total time:   0.000076
+ Self time:   0.000076
+
+count  total (s)   self (s)
+    6              0.000069   return empty(getbufvar(a:bufnr, '&buftype'))
+
+FUNCTION  airline#extensions#fzf#inactive_apply()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/fzf.vim line 37
+Called 4 times
+Total time:   0.000116
+ Self time:   0.000116
+
+count  total (s)   self (s)
+    4              0.000063   if getbufvar(a:2.bufnr, '&filetype') ==# 'fzf'
+                                let spc = g:airline_symbols.space
+                                call a:1.add_section('airline_a', spc.'FZF'.spc)
+                                call a:1.add_section('airline_c', '')
+                                return 1
+    4              0.000004   endif
+
+FUNCTION  <SNR>84_ModifierFlags()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/fugitiveline.vim line 11
+Called 44 times
+Total time:   0.000252
+ Self time:   0.000252
+
+count  total (s)   self (s)
+   44              0.000217   return (exists("+autochdir") && &autochdir) ? ':p' : ':.'
+
+FUNCTION  airline#highlighter#exec()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/highlighter.vim line 104
+Called 450 times
+Total time:   0.150652
+ Self time:   0.042021
+
+count  total (s)   self (s)
+  450              0.001110   if pumvisible()
+                                return
+  450              0.000235   endif
+  450              0.000779   let colors = a:colors
+  450              0.000513   if s:is_win32term
+                                let colors[2] = s:gui2cui(get(colors, 0, ''), get(colors, 2, ''))
+                                let colors[3] = s:gui2cui(get(colors, 1, ''), get(colors, 3, ''))
+  450              0.000258   endif
+  450   0.079010   0.007580   let old_hi = airline#highlighter#get_highlight(a:group)
+  450              0.001092   if len(colors) == 4
+  140              0.000428     call add(colors, '')
+  450              0.000248   endif
+  450              0.000834   if g:airline_gui_mode ==# 'gui'
+  450              0.002201     let new_hi = [colors[0], colors[1], '', '', colors[4]]
+                              else
+                                let new_hi = ['', '', printf("%s", colors[2]), printf("%s", colors[3]), colors[4]]
+  450              0.000310   endif
+  450   0.027666   0.006270   let colors = s:CheckDefined(colors)
+  450   0.009736   0.004790   if old_hi != new_hi || !s:hl_group_exists(a:group)
+  120   0.012435   0.001576     let cmd = printf('hi %s%s', a:group, s:GetHiCmd(colors))
+  120              0.001121     exe cmd
+  120              0.000390     if has_key(s:hl_groups, a:group)
+  120              0.000290       let s:hl_groups[a:group] = colors
+  120              0.000073     endif
+  450              0.000193   endif
+
+FUNCTION  gitgutter#utility#repo_path()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/utility.vim line 112
+Called 15 times
+Total time:   0.001063
+ Self time:   0.000623
+
+count  total (s)   self (s)
+   15   0.000878   0.000499   let p = gitgutter#utility#getbufvar(a:bufnr, 'path', '')
+   15   0.000161   0.000100   return a:shellesc ? gitgutter#utility#shellescape(p) : p
+
+FUNCTION  FugitiveParse()
+    Defined: ~/.vim/plugged/vim-fugitive/plugin/fugitive.vim line 71
+Called 3 times
+Total time:   0.000063
+ Self time:   0.000042
+
+count  total (s)   self (s)
+    3   0.000044   0.000023   let path = s:Slash(a:0 ? a:1 : @%)
+    3              0.000012   if path !~# '^fugitive:'
+    3              0.000004     return ['', '']
+                              endif
+                              let vals = matchlist(path, '\c^fugitive:\%(//\)\=\(.\{-\}\)\%(//\|::\)\(\x\{40,\}\|[0-3]\)\(/.*\)\=$')
+                              if len(vals)
+                                return [(vals[2] =~# '^.$' ? ':' : '') . vals[2] . substitute(vals[3], '^/', ':', ''), vals[1]]
+                              endif
+                              let v:errmsg = 'fugitive: invalid Fugitive URL ' . path
+                              throw v:errmsg
+
+FUNCTION  gitgutter#utility#windows()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/utility.vim line 231
+Called 3 times
+Total time:   0.000045
+ Self time:   0.000045
+
+count  total (s)   self (s)
+    3              0.000042   return has('win64') || has('win32') || has('win16')
+
+FUNCTION  airline#parts#spell()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/parts.vim line 67
+Called 33 times
+Total time:   0.001159
+ Self time:   0.001159
+
+count  total (s)   self (s)
+   33              0.000564   let spelllang = g:airline_detect_spelllang ? printf(" [%s]", toupper(substitute(&spelllang, ',', '/', 'g'))) : ''
+   33              0.000087   if g:airline_detect_spell && &spell
+                                let winwidth = airline#util#winwidth()
+                                if winwidth >= 90
+                                  return g:airline_symbols.spell . spelllang
+                                elseif winwidth >= 70
+                                  return g:airline_symbols.spell
+                                else
+                                  return split(g:airline_symbols.spell, '\zs')[0]
+                                endif
+   33              0.000015   endif
+   33              0.000030   return ''
+
+FUNCTION  gitgutter#hunk#summary()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/hunk.vim line 20
+Called 48 times
+Total time:   0.003044
+ Self time:   0.001831
+
+count  total (s)   self (s)
+   48   0.002998   0.001785   return gitgutter#utility#getbufvar(a:bufnr, 'summary', [0,0,0])
+
+FUNCTION  <SNR>94_setup_path()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter.vim line 156
+Called 6 times
+Total time:   0.000613
+ Self time:   0.000083
+
+count  total (s)   self (s)
+    6   0.000607   0.000077   if gitgutter#utility#has_repo_path(a:bufnr) | return | endif
+                            
+                              return gitgutter#utility#set_repo_path(a:bufnr, a:continuation)
+
+FUNCTION  <SNR>97_save_last_seen_change()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/diff.vim line 407
+Called 3 times
+Total time:   0.000183
+ Self time:   0.000059
+
+count  total (s)   self (s)
+    3   0.000180   0.000056   call gitgutter#utility#setbufvar(a:bufnr, 'tick', getbufvar(a:bufnr, 'changedtick'))
+
+FUNCTION  <SNR>25_on_focus_gained()
+    Defined: ~/.vim/plugged/vim-airline/plugin/airline.vim line 85
+Called 3 times
+Total time:   0.120961
+ Self time:   0.000142
+
+count  total (s)   self (s)
+    3   0.000125   0.000057   if airline#util#try_focusgained()
+    3   0.120828   0.000077     unlet! w:airline_lastmode | :call <sid>airline_refresh(1)
+    3              0.000002   endif
+
+FUNCTION  <SNR>98_ExpireStatus()
+    Defined: ~/.vim/plugged/vim-fugitive/autoload/fugitive.vim line 2855
+Called 3 times
+Total time:   0.000208
+ Self time:   0.000208
+
+count  total (s)   self (s)
+    3              0.000043   if a:bufnr == -2
+    3              0.000079     let s:head_cache = {}
+    3              0.000051     let s:last_time = reltime()
+    3              0.000011     return ''
+                              endif
+                              let dir = s:Dir(a:bufnr)
+                              if len(dir)
+                                let s:last_times[s:cpath(dir)] = reltime()
+                                if has_key(s:head_cache, dir)
+                                  call remove(s:head_cache, dir)
+                                endif
+                              endif
+                              return ''
+
+FUNCTION  airline#parts#crypt()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/parts.vim line 59
+Called 33 times
+Total time:   0.000463
+ Self time:   0.000463
+
+count  total (s)   self (s)
+   33              0.000437   return g:airline_detect_crypt && exists("+key") && !empty(&key) ? g:airline_symbols.crypt : ''
+
+FUNCTION  <SNR>53_not_git_dir()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/utility.vim line 59
+Called 6 times
+Total time:   0.001307
+ Self time:   0.000137
+
+count  total (s)   self (s)
+    6   0.001301   0.000131   return s:dir(a:bufnr) !~ '[/\\]\.git\($\|[/\\]\)'
+
+FUNCTION  airline#extensions#keymap#status()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/keymap.vim line 10
+Called 33 times
+Total time:   0.000575
+ Self time:   0.000575
+
+count  total (s)   self (s)
+   33              0.000291   if (get(g:, 'airline#extensions#keymap#enabled', 1) && has('keymap'))
+   33              0.000237     return printf('%s', (!empty(&keymap) ? (g:airline_symbols.keymap . ' '. &keymap) : ''))
+                              else
+                                return ''
+                              endif
+
+FUNCTION  gitgutter#utility#extension()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/utility.vim line 88
+Called 3 times
+Total time:   0.000759
+ Self time:   0.000065
+
+count  total (s)   self (s)
+    3   0.000756   0.000062   return fnamemodify(s:abs_path(a:bufnr, 0), ':e')
+
+FUNCTION  airline#extensions#branch#head()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/branch.vim line 239
+Called 33 times
+Total time:   0.061302
+ Self time:   0.002670
+
+count  total (s)   self (s)
+   33              0.000124   if !exists('b:buffer_vcs_config')
+                                call s:init_buffer()
+   33              0.000045   endif
+                            
+   33   0.040178   0.000624   call s:update_branch()
+   33   0.019911   0.001057   call s:update_untracked()
+                            
+   33              0.000186   if exists('b:airline_head') && !empty(b:airline_head)
+   30              0.000044     return b:airline_head
+    3              0.000001   endif
+                            
+    3              0.000004   let b:airline_head = ''
+    3              0.000012   let vcs_priority = get(g:, "airline#extensions#branch#vcs_priority", ["git", "mercurial"])
+                            
+    3              0.000003   let heads = []
+    9              0.000010   for vcs in vcs_priority
+    6              0.000016     if !empty(b:buffer_vcs_config[vcs].branch)
+    3              0.000008       let heads += [vcs]
+    6              0.000003     endif
+    9              0.000005   endfor
+                            
+    6              0.000006   for vcs in heads
+    3              0.000005     if !empty(b:airline_head)
+                                  let b:airline_head .= ' | '
+    3              0.000001     endif
+    3              0.000005     if len(heads) > 1
+                                  let b:airline_head .= s:vcs_config[vcs].exe .':'
+    3              0.000001     endif
+    3   0.000281   0.000057     let b:airline_head .= s:format_name({s:vcs_config[vcs].display_branch}())
+    3              0.000007     let additional = b:buffer_vcs_config[vcs].untracked
+    3              0.000015     if empty(additional) && has_key(b:buffer_vcs_config[vcs], 'dirty') && b:buffer_vcs_config[vcs].dirty
+    3              0.000010       let additional = g:airline_symbols['dirty']
+    3              0.000002     endif
+    3              0.000006     let b:airline_head .= additional
+    6              0.000007   endfor
+                            
+    3              0.000005   if empty(heads)
+                                if airline#util#has_vcscommand()
+                                  noa call VCSCommandEnableBufferSetup()
+                                  if exists('b:VCSCommandBufferInfo')
+                                    let b:airline_head = s:format_name(get(b:VCSCommandBufferInfo, 0, ''))
+                                  endif
+                                endif
+    3              0.000001   endif
+                            
+    3              0.000004   if empty(heads)
+                                if airline#util#has_custom_scm()
+                                  try
+                                    let Fn = function(g:airline#extensions#branch#custom_head)
+                                    let b:airline_head = Fn()
+                                  endtry
+                                endif
+    3              0.000001   endif
+                            
+    3              0.000009   if exists("g:airline#extensions#branch#displayed_head_limit")
+                                let w:displayed_head_limit = g:airline#extensions#branch#displayed_head_limit
+                                if strwidth(b:airline_head) > w:displayed_head_limit - 1
+                                  let b:airline_head = airline#util#strcharpart(b:airline_head, 0, w:displayed_head_limit - 1) . (&encoding ==? 'utf-8' ?  '…' : '.')
+                                endif
+    3              0.000001   endif
+                            
+    3              0.000003   return b:airline_head
+
+FUNCTION  <SNR>25_airline_refresh()
+    Defined: ~/.vim/plugged/vim-airline/plugin/airline.vim line 225
+Called 3 times
+Total time:   0.120751
+ Self time:   0.000555
+
+count  total (s)   self (s)
+                              " a:1, fast refresh, do not reload the theme
+    3              0.000025   let fast=!empty(get(a:000, 0, 0))
+    3              0.000020   if !exists("#airline")
+                                " disabled
+                                return
+    3              0.000003   endif
+    3   0.002697   0.000059   call airline#util#doautocmd('AirlineBeforeRefresh')
+    3   0.002908   0.000210   call airline#highlighter#reset_hlcache()
+    3              0.000039   if !fast
+                                call airline#load_theme()
+    3              0.000007   endif
+    3   0.114921   0.000090   call airline#update_statusline()
+    3   0.000082   0.000052   call airline#update_tabline()
+
+FUNCTION  <SNR>97_process_removed()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/diff.vim line 303
+Called 6 times
+Total time:   0.000081
+ Self time:   0.000081
+
+count  total (s)   self (s)
+    6              0.000013   if a:to_line == 0
+                                call add(a:modifications, [1, 'removed_first_line'])
+    6              0.000006   else
+    6              0.000025     call add(a:modifications, [a:to_line, 'removed'])
+    6              0.000005   endif
+
+FUNCTION  airline#util#prepend()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/util.vim line 63
+Called 176 times
+Total time:   0.001285
+ Self time:   0.001285
+
+count  total (s)   self (s)
+  176              0.000439   if a:minwidth > 0 && airline#util#winwidth() < a:minwidth
+                                return ''
+  176              0.000077   endif
+  176              0.000496   return empty(a:text) ? '' : a:text.s:spc.g:airline_right_alt_sep.s:spc
+
+FUNCTION  gitgutter#diff#run_diff()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/diff.vim line 69
+Called 3 times
+Total time:   0.039620
+ Self time:   0.007551
+
+count  total (s)   self (s)
+    3   0.002512   0.002314   if gitgutter#utility#repo_path(a:bufnr, 0) == -1
+                                throw 'gitgutter author fail'
+    3              0.000004   endif
+                            
+    3   0.000294   0.000098   if gitgutter#utility#repo_path(a:bufnr, 0) == -2
+                                throw 'gitgutter not tracked'
+    3              0.000004   endif
+                            
+    3              0.000062   let temp_from = tempname()
+    3              0.000013   let temp_buffer = tempname()
+                            
+                              " Wrap compound commands in parentheses to make Windows happy.
+                              " bash doesn't mind the parentheses.
+    3              0.000009   let cmd = '('
+                            
+                              " Append buffer number to temp filenames to avoid race conditions between
+                              " writing and reading the files when asynchronously processing multiple
+                              " buffers.
+                            
+                              " Without the buffer number, buff_file would have a race between the
+                              " second gitgutter#process_buffer() writing the file (synchronously, below)
+                              " and the first gitgutter#process_buffer()'s async job reading it (with
+                              " git-diff).
+    3              0.000039   let buff_file = temp_buffer.'.'.a:bufnr
+                            
+                              " Add a counter to avoid a similar race with two quick writes of the same buffer.
+                              " Use a modulus greater than a maximum reasonable number of visible buffers.
+    3              0.000018   let s:counter = (s:counter + 1) % 20
+    3              0.000180   let buff_file .= '.'.s:counter
+                            
+    3   0.000836   0.000078   let extension = gitgutter#utility#extension(a:bufnr)
+    3              0.000016   if !empty(extension)
+    3              0.000016     let buff_file .= '.'.extension
+    3              0.000004   endif
+                            
+                              " Write buffer to temporary file.
+                              " Note: this is synchronous.
+    3   0.005656   0.000745   call s:write_buffer(a:bufnr, buff_file)
+                            
+    3              0.000038   if a:from ==# 'index'
+                                " Without the buffer number, from_file would have a race in the shell
+                                " between the second process writing it (with git-show) and the first
+                                " reading it (with git-diff).
+    3              0.000042     let from_file = temp_from.'.'.a:bufnr
+                            
+                                " Add a counter to avoid a similar race with two quick writes of the same buffer.
+    3              0.000020     let from_file .= '.'.s:counter
+                            
+    3              0.000016     if !empty(extension)
+    3              0.000014       let from_file .= '.'.extension
+    3              0.000004     endif
+                            
+                                " Write file from index to temporary file.
+    3   0.001078   0.000170     let index_name = gitgutter#utility#get_diff_base(a:bufnr).':'.gitgutter#utility#repo_path(a:bufnr, 1)
+    3              0.000041     let cmd .= g:gitgutter_git_executable.' '.g:gitgutter_git_args.' --no-pager show '.index_name.' > '.from_file.' && '
+                            
+                              elseif a:from ==# 'working_tree'
+                                let from_file = gitgutter#utility#repo_path(a:bufnr, 1)
+    3              0.000003   endif
+                            
+                              " Call git-diff.
+    3              0.000021   let cmd .= g:gitgutter_git_executable.' '.g:gitgutter_git_args.' --no-pager'
+    3              0.000007   if s:c_flag
+    3              0.000009     let cmd .= ' -c "diff.autorefreshindex=0"'
+    3              0.000009     let cmd .= ' -c "diff.noprefix=false"'
+    3              0.000009     let cmd .= ' -c "core.safecrlf=false"'
+    3              0.000004   endif
+    3              0.000028   let cmd .= ' diff --no-ext-diff --no-color -U0 '.g:gitgutter_diff_args.' -- '.from_file.' '.buff_file
+                            
+                              " Pipe git-diff output into grep.
+    3              0.000014   if !a:preserve_full_diff && !empty(g:gitgutter_grep)
+    3   0.003851   0.002805     let cmd .= ' | '.g:gitgutter_grep.' '.gitgutter#utility#shellescape('^@@ ')
+    3              0.000009   endif
+                            
+                              " grep exits with 1 when no matches are found; git-diff exits with 1 when
+                              " differences are found.  However we want to treat non-matches and
+                              " differences as non-erroneous behaviour; so we OR the command with one
+                              " which always exits with success (0).
+    3              0.000022   let cmd .= ' || exit 0'
+                            
+    3              0.000016   let cmd .= ')'
+                            
+    3   0.002620   0.000180   let cmd = gitgutter#utility#cd_cmd(a:bufnr, cmd)
+                            
+    3   0.000063   0.000051   if g:gitgutter_async && gitgutter#async#available()
+    3   0.021792   0.000193     call gitgutter#async#execute(cmd, a:bufnr, {   'out': function('gitgutter#diff#handler'),   'err': function('gitgutter#hunk#reset'), })
+    3              0.000022     return 'async'
+                            
+                              else
+                                let diff = gitgutter#utility#system(cmd)
+                            
+                                if v:shell_error
+                                  call gitgutter#debug#log(diff)
+                                  throw 'gitgutter diff failed'
+                                endif
+                            
+                                return diff
+                              endif
+
+FUNCTION  <SNR>83_update_hg_branch()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/branch.vim line 138
+Called 33 times
+Total time:   0.002962
+ Self time:   0.002628
+
+count  total (s)   self (s)
+   33   0.000692   0.000357   if airline#util#has_lawrencium()
+                                let cmd='LC_ALL=C hg qtop'
+                                let stl=lawrencium#statusline()
+                                let file=expand('%:p')
+                                if !empty(stl) && get(b:, 'airline_do_mq_check', 1)
+                                  if g:airline#init#vim_async
+                                    noa call airline#async#get_mq_async(cmd, file)
+                                  elseif has("nvim")
+                                    noa call airline#async#nvim_get_mq_async(cmd, file)
+                                  else
+                                    " remove \n at the end of the command
+                                    let output=system(cmd)[0:-2]
+                                    noa call airline#async#mq_output(output, file)
+                                  endif
+                                endif
+                                " do not do mq check anymore
+                                let b:airline_do_mq_check = 0
+                                if exists("b:mq") && !empty(b:mq)
+                                  if stl is# 'default'
+                                    " Shorten default a bit
+                                    let stl='def'
+                                  endif
+                                  let stl.=' ['.b:mq.']'
+                                endif
+                                let s:vcs_config['mercurial'].branch = stl
+   33              0.000022   else
+   33              0.000210     let s:vcs_config['mercurial'].branch = ''
+   33              0.000020   endif
+
+FUNCTION  <SNR>17_Slash()
+    Defined: ~/.vim/plugged/vim-fugitive/plugin/fugitive.vim line 313
+Called 36 times
+Total time:   0.000257
+ Self time:   0.000257
+
+count  total (s)   self (s)
+   36              0.000110   if exists('+shellslash')
+                                return tr(a:path, '\', '/')
+   36              0.000019   else
+   36              0.000039     return a:path
+                              endif
+
+FUNCTION  GitGutterGetHunkSummary()
+    Defined: ~/.vim/plugged/vim-gitgutter/plugin/gitgutter.vim line 194
+Called 30 times
+Total time:   0.002024
+ Self time:   0.000533
+
+count  total (s)   self (s)
+   30   0.001996   0.000505   return gitgutter#hunk#summary(winbufnr(0))
+
+FUNCTION  airline#parts#mode()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/parts.vim line 55
+Called 33 times
+Total time:   0.017637
+ Self time:   0.007633
+
+count  total (s)   self (s)
+   33   0.017607   0.007603   return airline#util#shorten(get(w:, 'airline_current_mode', ''), 79, 1)
+
+FUNCTION  airline#extensions#quickfix#apply()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/quickfix.vim line 14
+Called 4 times
+Total time:   0.000067
+ Self time:   0.000067
+
+count  total (s)   self (s)
+    4              0.000023   if &buftype == 'quickfix'
+                                let w:airline_section_a = airline#extensions#quickfix#get_type()
+                                let w:airline_section_b = '%{get(w:, "quickfix_title", "")}'
+                                let w:airline_section_c = ''
+                                let w:airline_section_x = ''
+    4              0.000005   endif
+
+FUNCTION  gitgutter#hunk#increment_lines_removed()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/hunk.vim line 40
+Called 6 times
+Total time:   0.000534
+ Self time:   0.000193
+
+count  total (s)   self (s)
+    6   0.000284   0.000078   let summary = gitgutter#hunk#summary(a:bufnr)
+    6              0.000019   let summary[2] += a:count
+    6   0.000219   0.000085   call gitgutter#utility#setbufvar(a:bufnr, 'summary', summary)
+
+FUNCTION  <SNR>97_is_removed()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/diff.vim line 278
+Called 6 times
+Total time:   0.000033
+ Self time:   0.000033
+
+count  total (s)   self (s)
+    6              0.000026   return a:from_count > 0 && a:to_count == 0
+
+FUNCTION  gitgutter#async#execute()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/async.vim line 14
+Called 3 times
+Total time:   0.021600
+ Self time:   0.021162
+
+count  total (s)   self (s)
+    3   0.000457   0.000048   call gitgutter#debug#log('[async] '.a:cmd)
+                            
+    3              0.000026   let options = {   'stdoutbuffer': [],   'buffer': a:bufnr,   'handler': a:handler }
+    3   0.000093   0.000064   let command = s:build_command(a:cmd)
+                            
+    3              0.000014   if has('nvim')
+    3              0.020768     call jobstart(command, extend(options, {   'on_stdout': function('s:on_stdout_nvim'),   'on_stderr': function('s:on_stderr_nvim'),   'on_exit':   function('s:on_exit_nvim') }))
+                              else
+                                call job_start(command, {   'out_cb':   function('s:on_stdout_vim', options),   'err_cb':   function('s:on_stderr_vim', options),   'close_cb': function('s:on_exit_vim', options) })
+    3              0.000008   endif
+
+FUNCTION  fugitive#Find()
+    Defined: ~/.vim/plugged/vim-fugitive/autoload/fugitive.vim line 918
+Called 33 times
+Total time:   0.022311
+ Self time:   0.016847
+
+count  total (s)   self (s)
+   33              0.000158   if type(a:object) == type(0)
+                                let name = bufname(a:object)
+                                return FugitiveVimPath(name =~# '^$\|^/\|^\a\+:' ? name : getcwd() . '/' . name)
+   33              0.000339   elseif a:object =~# '^[~$]'
+                                let prefix = matchstr(a:object, '^[~$]\i*')
+                                let owner = expand(prefix)
+                                return FugitiveVimPath((len(owner) ? owner : prefix) . strpart(a:object, len(prefix)))
+   33   0.001243   0.000866   elseif s:Slash(a:object) =~# '^$\|^/\|^\%(\a\a\+:\).*\%(//\|::\)' . (has('win32') ? '\|^\a:/' : '')
+                                return FugitiveVimPath(a:object)
+   33   0.006506   0.006218   elseif s:Slash(a:object) =~# '^\.\.\=\%(/\|$\)'
+                                return FugitiveVimPath(simplify(getcwd() . '/' . a:object))
+   33              0.000019   endif
+   33              0.000123   let dir = a:0 ? a:1 : s:Dir()
+   33              0.000061   if empty(dir)
+                                let file = matchstr(a:object, '^\%(:\d:\|[^:]*:\)\zs.*', '', '')
+                                let dir = FugitiveExtractGitDir(file)
+                                if empty(dir)
+                                  return fnamemodify(FugitiveVimPath(len(file) ? file : a:object), ':p')
+                                endif
+   33              0.000013   endif
+   33   0.000450   0.000243   let rev = s:Slash(a:object)
+   33   0.003396   0.000298   let tree = s:Tree(dir)
+   33              0.000109   let base = len(tree) ? tree : 'fugitive://' . dir . '//0'
+   33              0.000063   if rev ==# '.git'
+                                let f = len(tree) ? tree . '/.git' : dir
+   33              0.000230   elseif rev =~# '^\.git/'
+   33              0.000339     let f = substitute(rev, '^\.git', '', '')
+   33   0.001678   0.000485     let cdir = fugitive#CommonDir(dir)
+   33              0.000226     if f =~# '^/\.\./\.\.\%(/\|$\)'
+                                  let f = simplify(len(tree) ? tree . f[3:-1] : dir . f)
+   33              0.000185     elseif f =~# '^/\.\.\%(/\|$\)'
+                                  let f = base . f[3:-1]
+   33              0.000250     elseif cdir !=# dir && ( f =~# '^/\%(config\|hooks\|info\|logs/refs\|objects\|refs\|worktrees\)\%(/\|$\)' || f !~# '^/\%(index$\|index\.lock$\|\w*MSG$\|\w*HEAD$\|logs/\w*HEAD$\|logs$\|rebase-\w\+\)\%(/\|$\)' && getftime(FugitiveVimPath(dir . f)) < 0 && getftime(FugitiveVimPath(cdir . f)) >= 0)
+                                  let f = simplify(cdir . f)
+   33              0.000020     else
+   33              0.000149       let f = simplify(dir . f)
+   33              0.000020     endif
+                              elseif rev ==# ':/'
+                                let f = base
+                              elseif rev =~# '^\.\%(/\|$\)'
+                                let f = base . rev[1:-1]
+                              elseif rev =~# '^::\%(/\|\a\+\:\)'
+                                let f = rev[2:-1]
+                              elseif rev =~# '^::\.\.\=\%(/\|$\)'
+                                let f = simplify(getcwd() . '/' . rev[2:-1])
+                              elseif rev =~# '^::'
+                                let f = base . '/' . rev[2:-1]
+                              elseif rev =~# '^:\%([0-3]:\)\=\.\.\=\%(/\|$\)\|^:[0-3]:\%(/\|\a\+:\)'
+                                let f = rev =~# '^:\%([0-3]:\)\=\.' ? simplify(getcwd() . '/' . matchstr(rev, '\..*')) : rev[3:-1]
+                                if s:cpath(base . '/', (f . '/')[0 : len(base)])
+                                  let f = 'fugitive://' . dir . '//' . +matchstr(rev, '^:\zs\d\ze:') . '/' . strpart(f, len(base) + 1)
+                                else
+                                  let altdir = FugitiveExtractGitDir(f)
+                                  if len(altdir) && !s:cpath(dir, altdir)
+                                    return fugitive#Find(a:object, altdir)
+                                  endif
+                                endif
+                              elseif rev =~# '^:[0-3]:'
+                                let f = 'fugitive://' . dir . '//' . rev[1] . '/' . rev[3:-1]
+                              elseif rev ==# ':'
+                                if $GIT_INDEX_FILE =~# '/[^/]*index[^/]*\.lock$' && s:cpath(fnamemodify($GIT_INDEX_FILE,':p')[0:strlen(dir)]) ==# s:cpath(dir . '/') && filereadable($GIT_INDEX_FILE)
+                                  let f = fnamemodify($GIT_INDEX_FILE, ':p')
+                                else
+                                  let f = fugitive#Find('.git/index', dir)
+                                endif
+                              elseif rev =~# '^:(\%(top\|top,literal\|literal,top\|literal\))'
+                                let f = matchstr(rev, ')\zs.*')
+                                if f=~# '^\.\.\=\%(/\|$\)'
+                                  let f = simplify(getcwd() . '/' . f)
+                                elseif f !~# '^/\|^\%(\a\a\+:\).*\%(//\|::\)' . (has('win32') ? '\|^\a:/' : '')
+                                  let f = base . '/' . f
+                                endif
+                              elseif rev =~# '^:/\@!'
+                                let f = 'fugitive://' . dir . '//0/' . rev[1:-1]
+                              else
+                                if !exists('f')
+                                  let commit = substitute(matchstr(rev, '^\%([^:.-]\|\.\.[^/:]\)[^:]*\|^:.*'), '^@\%($\|[~^]\|@{\)\@=', 'HEAD', '')
+                                  let file = substitute(matchstr(rev, '^\%([^:.-]\|\.\.[^/:]\)[^:]*\zs:.*'), '^:', '/', '')
+                                  if file =~# '^/\.\.\=\%(/\|$\)\|^//\|^/\a\+:'
+                                    let file = file =~# '^/\.' ? simplify(getcwd() . file) : file[1:-1]
+                                    if s:cpath(base . '/', (file . '/')[0 : len(base)])
+                                      let file = '/' . strpart(file, len(base) + 1)
+                                    else
+                                      let altdir = FugitiveExtractGitDir(file)
+                                      if len(altdir) && !s:cpath(dir, altdir)
+                                        return fugitive#Find(a:object, altdir)
+                                      endif
+                                      return file
+                                    endif
+                                  endif
+                                  let commits = split(commit, '\.\.\.-\@!', 1)
+                                  if len(commits) == 2
+                                    call map(commits, 'empty(v:val) || v:val ==# "@" ? "HEAD" : v:val')
+                                    let commit = matchstr(s:ChompDefault('', [dir, 'merge-base'] + commits + ['--']), '\<[0-9a-f]\{40,\}\>')
+                                  endif
+                                  if commit !~# '^[0-9a-f]\{40,\}$'
+                                    let commit = matchstr(s:ChompDefault('', [dir, 'rev-parse', '--verify', commit . (len(file) ? '^{}' : ''), '--']), '\<[0-9a-f]\{40,\}\>')
+                                  endif
+                                  if len(commit)
+                                    let f = 'fugitive://' . dir . '//' . commit . file
+                                  else
+                                    let f = base . '/' . substitute(rev, '^:/:\=\|^[^:]\+:', '', '')
+                                  endif
+                                endif
+   33              0.000015   endif
+   33   0.000698   0.000394   return FugitiveVimPath(f)
+
+FUNCTION  gitgutter#diff#handler()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/diff.vim line 174
+Called 3 times
+Total time:   0.012043
+ Self time:   0.000641
+
+count  total (s)   self (s)
+    3   0.000218   0.000036   call gitgutter#debug#log(a:diff)
+                            
+    3              0.000011   if !bufexists(a:bufnr)
+                                return
+    3              0.000001   endif
+                            
+    3   0.001966   0.000086   call gitgutter#hunk#set_hunks(a:bufnr, gitgutter#diff#parse_diff(a:diff))
+    3   0.007525   0.000077   let modified_lines = gitgutter#diff#process_hunks(a:bufnr, gitgutter#hunk#hunks(a:bufnr))
+                            
+    3              0.000017   let signs_count = len(modified_lines)
+    3              0.000013   if g:gitgutter_max_signs != -1 && signs_count > g:gitgutter_max_signs
+                                call gitgutter#utility#warn_once(a:bufnr, printf( 'exceeded maximum number of signs (%d > %d, configured by g:gitgutter_max_signs).', signs_count, g:gitgutter_max_signs), 'max_signs')
+                                call gitgutter#sign#clear_signs(a:bufnr)
+                            
+    3              0.000003   else
+    3              0.000014     if g:gitgutter_signs || g:gitgutter_highlight_lines || g:gitgutter_highlight_linenrs
+    3   0.001899   0.000191       call gitgutter#sign#update_signs(a:bufnr, modified_lines)
+    3              0.000003     endif
+    3              0.000002   endif
+                            
+    3   0.000231   0.000047   call s:save_last_seen_change(a:bufnr)
+    3              0.000054   if exists('#User#GitGutter')
+                                let g:gitgutter_hook_context = {'bufnr': a:bufnr}
+                                execute 'doautocmd' s:nomodeline 'User GitGutter'
+                                unlet g:gitgutter_hook_context
+    3              0.000002   endif
+
+FUNCTION  airline#extensions#wordcount#apply()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/wordcount.vim line 88
+Called 4 times
+Total time:   0.000750
+ Self time:   0.000750
+
+count  total (s)   self (s)
+    4              0.000508   let filetypes = get(g:, 'airline#extensions#wordcount#filetypes',  ['asciidoc', 'help', 'mail', 'markdown', 'org', 'rst', 'plaintex', 'tex', 'text'])
+                              " export current filetypes settings to global namespace
+    4              0.000031   let g:airline#extensions#wordcount#filetypes = filetypes
+                            
+                              " Check if filetype needs testing
+    4              0.000013   if did_filetype()
+                                " correctly test for compound filetypes (e.g. markdown.pandoc)
+                                let ft = substitute(&filetype, '\.', '\\|', 'g')
+                            
+                                " Select test based on type of "filetypes": new=list, old=string
+                                if type(filetypes) == get(v:, 't_list', type([])) ? match(filetypes, '\<'. ft. '\>') > -1 || index(filetypes, 'all') > -1 : match(&filetype, filetypes) > -1
+                                  let b:airline_changedtick = -1
+                                  call s:update_wordcount(1) " force update: ensures initial worcount exists
+                                elseif exists('b:airline_wordcount') " cleanup when filetype is removed
+                                  unlet b:airline_wordcount
+                                endif
+    4              0.000004   endif
+                            
+    4              0.000026   if exists('b:airline_wordcount')
+                                call airline#extensions#prepend_to_section( 'z', '%{airline#extensions#wordcount#get()}')
+    4              0.000003   endif
+
+FUNCTION  <SNR>86_ws_refresh()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/whitespace.vim line 183
+Called 3 times
+Total time:   0.000023
+ Self time:   0.000023
+
+count  total (s)   self (s)
+    3              0.000016   if get(b:, 'airline_ws_changedtick', 0) == b:changedtick
+    3              0.000003     return
+                              endif
+                              unlet! b:airline_whitespace_check
+                              if get(g:, 'airline_skip_empty_sections', 0)
+                                exe ':AirlineRefresh!'
+                              endif
+                              let b:airline_ws_changedtick = b:changedtick
+
+FUNCTION  <SNR>73_is_excluded_window()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions.vim line 110
+Called 8 times
+Total time:   0.000688
+ Self time:   0.000688
+
+count  total (s)   self (s)
+    8              0.000047   for matchft in g:airline_exclude_filetypes
+                                if matchft ==# &ft
+                                  return 1
+                                endif
+    8              0.000015   endfor
+                            
+   32              0.000070   for matchw in g:airline_exclude_filenames
+   24              0.000307     if matchstr(expand('%'), matchw) ==# matchw
+                                  return 1
+   24              0.000017     endif
+   32              0.000030   endfor
+                            
+    8              0.000021   if g:airline_exclude_preview && &previewwindow
+                                return 1
+    8              0.000005   endif
+                            
+    8              0.000009   return 0
+
+FUNCTION  <SNR>92_get_transitioned_seperator()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/builder.vim line 143
+Called 40 times
+Total time:   0.054572
+ Self time:   0.003169
+
+count  total (s)   self (s)
+   40              0.000120   let line = ''
+   40              0.000599   if get(a:self._context, 'tabline', 0) && get(g:, 'airline#extensions#tabline#alt_sep', 0) && a:group ==# 'airline_tabsel' && a:side
+                                call airline#highlighter#add_separator(a:prev_group, a:group, 0)
+                                let line .= '%#'.a:prev_group.'_to_'.a:group.'#'
+                                let line .=  a:self._context.right_sep.'%#'.a:group.'#'
+   40              0.000035   else
+   40   0.052251   0.000849     call airline#highlighter#add_separator(a:prev_group, a:group, a:side)
+   40              0.000317     let line .= '%#'.a:prev_group.'_to_'.a:group.'#'
+   40              0.000263     let line .= a:side ? a:self._context.left_sep : a:self._context.right_sep
+   40              0.000163     let line .= '%#'.a:group.'#'
+   40              0.000031   endif
+   40              0.000182   return line
+
+FUNCTION  <SNR>95_on_exit_nvim()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/async.vim line 69
+Called 3 times
+Total time:   0.012251
+ Self time:   0.000208
+
+count  total (s)   self (s)
+    3              0.000014   if !a:exit_code
+    3   0.012212   0.000169     call self.handler.out(self.buffer, join(self.stdoutbuffer, "\n"))
+    3              0.000002   endif
+
+FUNCTION  gitgutter#utility#is_active()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/utility.vim line 50
+Called 6 times
+Total time:   0.009401
+ Self time:   0.005845
+
+count  total (s)   self (s)
+    6   0.009392   0.005836   return g:gitgutter_enabled && gitgutter#utility#getbufvar(a:bufnr, 'enabled', 1) && !pumvisible() && s:is_file_buffer(a:bufnr) && s:exists_file(a:bufnr) && s:not_git_dir(a:bufnr)
+
+FUNCTION  airline#util#has_lawrencium()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/util.vim line 158
+Called 33 times
+Total time:   0.000334
+ Self time:   0.000334
+
+count  total (s)   self (s)
+   33              0.000147   if !exists("s:has_lawrencium")
+                                let s:has_lawrencium  = exists('*lawrencium#statusline')
+   33              0.000022   endif
+   33              0.000046   return s:has_lawrencium
+
+FUNCTION  airline#highlighter#get_highlight()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/highlighter.vim line 67
+Called 794 times
+Total time:   0.147814
+ Self time:   0.073917
+
+count  total (s)   self (s)
+  794              0.016507   let reverse = get(g:, 'airline_gui_mode', '') ==# 'gui' ? synIDattr(synIDtrans(hlID(a:group)), 'reverse', 'gui') : synIDattr(synIDtrans(hlID(a:group)), 'reverse', 'cterm')|| synIDattr(synIDtrans(hlID(a:group)), 'reverse', 'term')
+  794              0.004022   if get(g:, 'airline_highlighting_cache', 0) && has_key(s:hl_groups, a:group)
+                                let res = s:hl_groups[a:group]
+                                return reverse ? [ res[1], res[0], res[3], res[2], res[4] ] : res
+  794              0.000603   else
+  794   0.042005   0.011086     let fg = s:get_syn(a:group, 'fg')
+  794   0.043779   0.009829     let bg = s:get_syn(a:group, 'bg')
+  794              0.005186     let bold = synIDattr(synIDtrans(hlID(a:group)), 'bold')
+  794              0.001011     if reverse
+                                  let res = s:get_array(bg, fg, bold ? ['bold'] : a:000)
+  794              0.000625     else
+  794   0.019099   0.010071       let res = s:get_array(fg, bg, bold ? ['bold'] : a:000)
+  794              0.000600     endif
+  794              0.000367   endif
+  794              0.004067   let s:hl_groups[a:group] = res
+  794              0.000927   return res
+
+FUNCTION  airline#util#shorten()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/util.vim line 28
+Called 143 times
+Total time:   0.017809
+ Self time:   0.015791
+
+count  total (s)   self (s)
+  143   0.015724   0.013706   if airline#util#winwidth() < a:winwidth && len(split(a:text, '\zs')) > a:minwidth
+                                if get(a:000, 0, 0)
+                                  " shorten from tail
+                                  return '…'.matchstr(a:text, '.\{'.a:minwidth.'}$')
+                                else
+                                  " shorten from beginning of string
+                                  return matchstr(a:text, '^.\{'.a:minwidth.'}').'…'
+                                endif
+  143              0.000073   else
+  143              0.000165     return a:text
+                              endif
+
+FUNCTION  278()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/builder.vim line 8
+Called 8 times
+Total time:   0.000053
+ Self time:   0.000053
+
+count  total (s)   self (s)
+    8              0.000046   call add(self._sections, ['|', a:0 ? a:1 : '%='])
+
+FUNCTION  gitgutter#utility#get_diff_base()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/utility.vim line 191
+Called 3 times
+Total time:   0.000668
+ Self time:   0.000668
+
+count  total (s)   self (s)
+    3              0.000533   let p = resolve(expand('#'.a:bufnr.':p'))
+    3              0.000086   let ml = matchlist(p, '\v^fugitive:/.*/(\x{40,})/')
+    3              0.000019   if !empty(ml) && !empty(ml[1])
+                                return ml[1].'^'
+    3              0.000003   endif
+    3              0.000008   return g:gitgutter_diff_base
+
+FUNCTION  airline#highlighter#highlight_modified_inactive()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/highlighter.vim line 229
+Called 10 times
+Total time:   0.003851
+ Self time:   0.000488
+
+count  total (s)   self (s)
+   10              0.000048   if getbufvar(a:bufnr, '&modified')
+                                let colors = exists('g:airline#themes#{g:airline_theme}#palette.inactive_modified.airline_c') ? g:airline#themes#{g:airline_theme}#palette.inactive_modified.airline_c : []
+   10              0.000007   else
+   10              0.000123     let colors = exists('g:airline#themes#{g:airline_theme}#palette.inactive.airline_c') ? g:airline#themes#{g:airline_theme}#palette.inactive.airline_c : []
+   10              0.000008   endif
+                            
+   10              0.000022   if !empty(colors)
+   10   0.003569   0.000206     call airline#highlighter#exec('airline_c'.(a:bufnr).'_inactive', colors)
+   10              0.000006   endif
+
+FUNCTION  airline#extensions#branch#get_head()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/branch.vim line 308
+Called 33 times
+Total time:   0.069620
+ Self time:   0.006880
+
+count  total (s)   self (s)
+   33   0.061635   0.000333   let head = airline#extensions#branch#head()
+   33   0.005621   0.005366   let winwidth = get(airline#parts#get('branch'), 'minwidth', 120)
+   33              0.000210   let minwidth = empty(get(b:, 'airline_hunks', '')) ? 14 : 7
+   33   0.001589   0.000407   let head = airline#util#shorten(head, winwidth, minwidth)
+   33              0.000161   let symbol = get(g:, 'airline#extensions#branch#symbol', g:airline_symbols.branch)
+   33              0.000331   return empty(head) ? get(g:, 'airline#extensions#branch#empty_message', '') : printf('%s%s', empty(symbol) ? '' : symbol.(g:airline_symbols.space), head)
+
+FUNCTION  285()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/builder.vim line 62
+Called 8 times
+Total time:   0.097146
+ Self time:   0.015707
+
+count  total (s)   self (s)
+    8              0.000170   let side = 1
+    8              0.000020   let line = ''
+    8              0.000011   let i = 0
+    8              0.000048   let length = len(self._sections)
+    8              0.000013   let split = 0
+    8              0.000015   let is_empty = 0
+    8              0.000014   let prev_group = ''
+                            
+   64              0.000179   while i < length
+   56              0.000277     let section = self._sections[i]
+   56              0.000213     let group = section[0]
+   56              0.000154     let contents = section[1]
+   56              0.000131     let pgroup = prev_group
+   56   0.003461   0.002304     let prev_group = airline#builder#get_prev_group(self._sections, i)
+   56              0.000646     if group ==# 'airline_c' && &buftype ==# 'terminal' && self._context.active
+                                  let group = 'airline_term'
+   56              0.000270     elseif group ==# 'airline_c' && !self._context.active && has_key(self._context, 'bufnr')
+                                  let group = 'airline_c'. self._context.bufnr
+   56              0.000247     elseif prev_group ==# 'airline_c' && !self._context.active && has_key(self._context, 'bufnr')
+                                  let prev_group = 'airline_c'. self._context.bufnr
+   56              0.000050     endif
+   56              0.000072     if is_empty
+                                  let prev_group = pgroup
+   56              0.000038     endif
+   56   0.003231   0.001512     let is_empty = s:section_is_empty(self, contents)
+                            
+   56              0.000100     if is_empty
+                                  " need to fix highlighting groups, since we
+                                  " have skipped a section, we actually need
+                                  " the previous previous group and so the
+                                  " seperator goes from the previous previous group
+                                  " to the current group
+                                  let pgroup = group
+   56              0.000100     endif
+                            
+   56              0.000107     if group == ''
+                                  let line .= contents
+   56              0.000099     elseif group == '|'
+    8              0.000011       let side = 0
+    8              0.000029       let line .= contents
+    8              0.000010       let split = 1
+   48              0.000035     else
+   48              0.000085       if prev_group == ''
+    8              0.000045         let line .= '%#'.group.'#'
+   40              0.000046       elseif split
+    8              0.000009         if !is_empty
+    8   0.017303   0.000257           let line .= s:get_transitioned_seperator(self, prev_group, group, side)
+    8              0.000009         endif
+    8              0.000014         let split = 0
+   32              0.000021       else
+   32              0.000041         if !is_empty
+   32   0.057604   0.000718           let line .= s:get_seperator(self, prev_group, group, side)
+   32              0.000066         endif
+   48              0.000079       endif
+   48   0.008388   0.003756       let line .= is_empty ? '' : s:get_accented_line(self, group, contents)
+   56              0.000055     endif
+                            
+   56              0.000126     let i = i + 1
+   64              0.000150   endwhile
+                            
+    8              0.000020   if !self._context.active
+                                "let line = substitute(line, '%#airline_c#', '%#airline_c'.self._context.bufnr.'#', '')
+    4              0.000430     let line = substitute(line, '%#.\{-}\ze#', '\0_inactive', 'g')
+    8              0.000011   endif
+    8              0.000060   return line
+
+FUNCTION  coc#rpc#notify()
+    Defined: ~/.vim/plugged/coc.nvim/autoload/coc/rpc.vim line 95
+Called 7 times
+Total time:   0.001471
+ Self time:   0.000256
+
+count  total (s)   self (s)
+    7   0.000162   0.000080   if !coc#rpc#ready()
+                                return ''
+    7              0.000004   endif
+    7   0.001274   0.000142   call s:client['notify'](a:method, a:args)
+    7              0.000011   return ''
+
+FUNCTION  airline#extensions#hunks#get_hunks()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/hunks.vim line 95
+Called 33 times
+Total time:   0.024655
+ Self time:   0.017650
+
+count  total (s)   self (s)
+   33              0.000209   if !get(w:, 'airline_active', 0)
+                                return ''
+   33              0.000018   endif
+                              " Cache values, so that it isn't called too often
+   33   0.007573   0.007026   if exists("b:airline_hunks") && get(b:,  'airline_changenr', 0) == b:changedtick && airline#util#winwidth() == get(s:, 'airline_winwidth', 0) && get(b:, 'source_func', '') isnot# 's:get_hunks_signify' && get(b:, 'source_func', '') isnot# 's:get_hunks_gitgutter' && get(b:, 'source_func', '') isnot# 's:get_hunks_empty' && get(b:, 'source_func', '') isnot# 's:get_hunks_changes' && get(b:, 'source_func', '') isnot# 's:get_hunks_coc'
+                                return b:airline_hunks
+   33              0.000022   endif
+   33   0.005237   0.000452   let hunks = airline#extensions#hunks#get_raw_hunks()
+   33              0.000052   let string = ''
+   33   0.000676   0.000473   let winwidth = get(airline#parts#get('hunks'), 'minwidth', 100)
+   33              0.000082   if !empty(hunks)
+                                " hunks should contain [added, changed, deleted]
+  120              0.000229     for i in [0, 1, 2]
+   90   0.001931   0.000982       if (s:non_zero_only == 0 && airline#util#winwidth() > winwidth) || hunks[i] > 0
+   90              0.000629         let string .= printf('%s%s ', s:hunk_symbols[i], hunks[i])
+   90              0.000065       endif
+  120              0.000101     endfor
+   33              0.000022   endif
+   33   0.000704   0.000617   if index(airline#extensions#get_loaded_extensions(), 'branch') == -1 && string[-1:] == ' '
+                                " branch extension not loaded, skip trailing whitespace
+                                let string = string[0:-2]
+   33              0.000019   endif
+                            
+   33              0.000080   let b:airline_hunks = string
+   33              0.000067   let b:airline_changenr = b:changedtick
+   33   0.006238   0.005803   let s:airline_winwidth = airline#util#winwidth()
+   33              0.000063   return string
+
+FUNCTION  airline#extensions#fzf#apply()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/fzf.vim line 28
+Called 4 times
+Total time:   0.000096
+ Self time:   0.000096
+
+count  total (s)   self (s)
+    4              0.000016   if &filetype ==# 'fzf'
+                                let spc = g:airline_symbols.space
+                                call a:1.add_section('airline_a', spc.'FZF'.spc)
+                                call a:1.add_section('airline_c', '')
+                                return 1
+    4              0.000003   endif
+
+FUNCTION  gitgutter#utility#getbufvar()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/utility.vim line 21
+Called 75 times
+Total time:   0.001938
+ Self time:   0.001938
+
+count  total (s)   self (s)
+   75              0.000707   let ggvars = getbufvar(a:buffer, 'gitgutter')
+   75              0.000655   if type(ggvars) == type({}) && has_key(ggvars, a:varname)
+   69              0.000366     return ggvars[a:varname]
+    6              0.000012   endif
+    6              0.000011   if a:0
+    6              0.000011     return a:1
+                              endif
+
+FUNCTION  airline#highlighter#reset_hlcache()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/highlighter.vim line 63
+Called 3 times
+Total time:   0.002698
+ Self time:   0.002698
+
+count  total (s)   self (s)
+    3              0.002691   let s:hl_groups = {}
+
+FUNCTION  <SNR>97_is_added()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/diff.vim line 274
+Called 18 times
+Total time:   0.000101
+ Self time:   0.000101
+
+count  total (s)   self (s)
+   18              0.000082   return a:from_count == 0 && a:to_count > 0
+
+FUNCTION  <SNR>25_on_cursor_moved()
+    Defined: ~/.vim/plugged/vim-airline/plugin/airline.vim line 91
+Called 1 time
+Total time:   0.000021
+ Self time:   0.000015
+
+count  total (s)   self (s)
+    1              0.000005   if winnr() != s:active_winnr || !exists('w:airline_active')
+                                call s:on_window_changed('CursorMoved')
+    1              0.000001   endif
+    1   0.000012   0.000006   call airline#update_tabline()
+
+FUNCTION  <SNR>80_hl_group_exists()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/highlighter.vim line 95
+Called 330 times
+Total time:   0.004946
+ Self time:   0.004946
+
+count  total (s)   self (s)
+  330              0.001318   if !hlexists(a:group)
+                                return 0
+  330              0.001798   elseif empty(synIDattr(hlID(a:group), 'fg'))
+                                return 0
+  330              0.000187   endif
+  330              0.000248   return 1
+
+FUNCTION  airline#util#getbufvar()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/util.vim line 71
+Called 12 times
+Total time:   0.000199
+ Self time:   0.000199
+
+count  total (s)   self (s)
+   12              0.000079     return getbufvar(a:bufnr, a:key, a:def)
+
+FUNCTION  fugitive#ReloadStatus()
+    Defined: ~/.vim/plugged/vim-fugitive/autoload/fugitive.vim line 2910
+Called 3 times
+Total time:   0.004301
+ Self time:   0.004027
+
+count  total (s)   self (s)
+    3   0.003905   0.003697   call s:ExpireStatus(a:0 ? a:1 : -1)
+    3              0.000012   if a:0 > 1 ? a:2 : 1
+                                let t = reltime()
+                                let t:fugitive_reload_status = t
+                                for tabnr in exists('*settabvar') ? range(1, tabpagenr('$')) : []
+                                  call settabvar(tabnr, 'fugitive_reload_status', t)
+                                endfor
+                                call s:ReloadTabStatus()
+                                exe s:DoAutocmdChanged(a:0 ? a:1 : -1)
+    3              0.000004   else
+    3   0.000220   0.000154     call s:ReloadWinStatus()
+    3              0.000004   endif
+    3              0.000005   return ''
+
+FUNCTION  <SNR>93_build_sections()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/default.vim line 35
+Called 12 times
+Total time:   0.018312
+ Self time:   0.003173
+
+count  total (s)   self (s)
+   64              0.000165   for key in a:keys
+   52              0.000442     if (key == 'warning' || key == 'error') && !a:context.active
+    8              0.000010       continue
+   44              0.000030     endif
+   44   0.017360   0.002221     call s:add_section(a:builder, a:context, key)
+   56              0.000086   endfor
+
+FUNCTION  <SNR>17_Tree()
+    Defined: ~/.vim/plugged/vim-fugitive/plugin/fugitive.vim line 164
+Called 33 times
+Total time:   0.000542
+ Self time:   0.000542
+
+count  total (s)   self (s)
+   33              0.000069   let dir = a:path
+   33              0.000292   if dir =~# '/\.git$'
+   33              0.000146     return len(dir) ==# 5 ? '/' : dir[0:-6]
+                              elseif dir ==# ''
+                                return ''
+                              endif
+                              if !has_key(s:worktree_for_dir, dir)
+                                let s:worktree_for_dir[dir] = ''
+                                let config_file = dir . '/config'
+                                if filereadable(config_file)
+                                  let config = readfile(config_file,'',10)
+                                  call filter(config,'v:val =~# "^\\s*worktree *="')
+                                  if len(config) == 1
+                                    let worktree = FugitiveVimPath(matchstr(config[0], '= *\zs.*'))
+                                  endif
+                                elseif filereadable(dir . '/gitdir')
+                                  let worktree = fnamemodify(FugitiveVimPath(readfile(dir . '/gitdir')[0]), ':h')
+                                  if worktree ==# '.'
+                                    unlet! worktree
+                                  endif
+                                endif
+                                if exists('worktree')
+                                  let s:worktree_for_dir[dir] = s:Slash(resolve(worktree))
+                                  let s:dir_for_worktree[s:worktree_for_dir[dir]] = dir
+                                endif
+                              endif
+                              if s:worktree_for_dir[dir] =~# '^\.'
+                                return simplify(dir . '/' . s:worktree_for_dir[dir])
+                              else
+                                return s:worktree_for_dir[dir]
+                              endif
+
+FUNCTION  <SNR>83_update_branch()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions/branch.vim line 173
+Called 33 times
+Total time:   0.039554
+ Self time:   0.002644
+
+count  total (s)   self (s)
+   99              0.000393   for vcs in keys(s:vcs_config)
+   66   0.038066   0.001156     call {s:vcs_config[vcs].update_branch}()
+   66              0.000367     if b:buffer_vcs_config[vcs].branch != s:vcs_config[vcs].branch
+                                  let b:buffer_vcs_config[vcs].branch = s:vcs_config[vcs].branch
+                                  unlet! b:airline_head
+   66              0.000041     endif
+   99              0.000109   endfor
+
+FUNCTION  gitgutter#hunk#set_hunks()
+    Defined: ~/.vim/plugged/vim-gitgutter/autoload/gitgutter/hunk.vim line 5
+Called 3 times
+Total time:   0.000260
+ Self time:   0.000071
+
+count  total (s)   self (s)
+    3   0.000139   0.000038   call gitgutter#utility#setbufvar(a:bufnr, 'hunks', a:hunks)
+    3   0.000117   0.000030   call s:reset_summary(a:bufnr)
+
+FUNCTION  airline#extensions#get_loaded_extensions()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/extensions.vim line 476
+Called 33 times
+Total time:   0.000087
+ Self time:   0.000087
+
+count  total (s)   self (s)
+   33              0.000069   return s:loaded_ext
+
+FUNCTION  airline#builder#new()
+    Defined: ~/.vim/plugged/vim-airline/autoload/airline/builder.vim line 232
+Called 8 times
+Total time:   0.000483
+ Self time:   0.000483
+
+count  total (s)   self (s)
+    8              0.000154   let builder = copy(s:prototype)
+    8              0.000029   let builder._context = a:context
+    8              0.000023   let builder._sections = []
+                            
+    8              0.000228   call extend(builder._context, { 'left_sep': g:airline_left_sep, 'left_alt_sep': g:airline_left_alt_sep, 'right_sep': g:airline_right_sep, 'right_alt_sep': g:airline_right_alt_sep, }, 'keep')
+    8              0.000023   return builder
+
+FUNCTIONS SORTED ON TOTAL TIME
+count  total (s)   self (s)  function
+   44   0.233855   0.007555  airline#check_mode()
+   10   0.220624   0.034190  airline#highlighter#highlight()
+  450   0.150652   0.042021  airline#highlighter#exec()
+  794   0.147814   0.073917  airline#highlighter#get_highlight()
+  140   0.131836   0.014637  <SNR>80_exec_separator()
+    4   0.129030   0.001444  airline#update_statusline()
+    8   0.125779   0.001036  <SNR>75_invoke_funcrefs()
+    3   0.120961   0.000142  <SNR>25_on_focus_gained()
+    3   0.120751   0.000555  <SNR>25_airline_refresh()
+    8   0.097146   0.015707  285()
+  280   0.071157   0.009108  airline#themes#get_highlight()
+   33   0.069620   0.006880  airline#extensions#branch#get_head()
+ 1588   0.064869             <SNR>80_get_syn()
+   33   0.061302   0.002670  airline#extensions#branch#head()
+   32   0.056885   0.002201  <SNR>92_get_seperator()
+   40   0.054572   0.003169  <SNR>92_get_transitioned_seperator()
+   40   0.051402   0.001667  airline#highlighter#add_separator()
+    6   0.050656   0.000928  gitgutter#process_buffer()
+    3   0.049834   0.001399  gitgutter#all()
+    4   0.044364   0.000730  airline#update_statusline_inactive()
+
+FUNCTIONS SORTED ON SELF TIME
+count  total (s)   self (s)  function
+  794   0.147814   0.073917  airline#highlighter#get_highlight()
+ 1588              0.064869  <SNR>80_get_syn()
+  450   0.150652   0.042021  airline#highlighter#exec()
+   10   0.220624   0.034190  airline#highlighter#highlight()
+  450              0.021396  <SNR>80_CheckDefined()
+    3   0.021600   0.021162  gitgutter#async#execute()
+   33   0.018854   0.018112  <SNR>83_update_untracked()
+   33   0.024655   0.017650  airline#extensions#hunks#get_hunks()
+   33   0.022311   0.016847  fugitive#Find()
+  143   0.017809   0.015791  airline#util#shorten()
+    8   0.097146   0.015707  285()
+  140   0.131836   0.014637  <SNR>80_exec_separator()
+  120              0.010860  <SNR>80_GetHiCmd()
+   64   0.011665   0.010308  <SNR>93_get_section()
+  280   0.071157   0.009108  airline#themes#get_highlight()
+  794              0.009029  <SNR>80_get_array()
+   33   0.017637   0.007633  airline#parts#mode()
+   44   0.233855   0.007555  airline#check_mode()
+    3   0.039620   0.007551  gitgutter#diff#run_diff()
+   33   0.069620   0.006880  airline#extensions#branch#get_head()
+
