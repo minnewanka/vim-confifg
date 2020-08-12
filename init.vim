@@ -1,6 +1,5 @@
 syntax on
 
-set guicursor=n-v-c-sm:block,i:blinkwait100-blinkon400-blinkoff250
 set noshowmatch
 set relativenumber
 set nohlsearch
@@ -22,24 +21,24 @@ set undofile
 set incsearch
 set termguicolors
 set scrolloff=8
+set colorcolumn=100
 set noshowmode
-:autocmd InsertEnter,InsertLeave * set cul!
- augroup savealot
-  autocmd!
-  autocmd FocusLost,InsertLeave,WinLeave * :wa
-  autocmd FocusLost,InsertLeave,WinLeave * CocCommand prettier.formatFile
-augroup END
 " Give more space for displaying messages.
 set cmdheight=2
-
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
 set updatetime=50
-
 " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
 
-set colorcolumn=100
+
+:autocmd InsertEnter,InsertLeave * set cul!
+ augroup savealot
+  autocmd!
+  autocmd FocusLost,InsertLeave * :wa
+  autocmd FocusLost,InsertLeave * CocCommand prettier.formatFile
+augroup END
+
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 
 call plug#begin('~/.vim/plugged')
@@ -58,25 +57,28 @@ Plug 'gruvbox-community/gruvbox'
 Plug 'sainnhe/gruvbox-material'
 Plug 'vim-airline/vim-airline'
 Plug 'psliwka/vim-smoothie'
-Plug 'preservim/nerdtree'
 Plug 'easymotion/vim-easymotion'
 Plug 'preservim/nerdtree'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-scripts/ReplaceWithRegister'
+Plug 'kana/vim-textobj-indent'
+Plug 'kana/vim-textobj-user'
+
 call plug#end()
 
-let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -l -g ""'
-
-let g:gruvbox_contrast_dark = 'medium'
 if exists('+termguicolors')
     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
 let g:gruvbox_invert_selection='0'
+let g:gruvbox_material_visual = 'blue background'
+let g:gruvbox_material_enable_bold = 1
+let g:gruvbox_material_enable_italic = 1
+let g:gruvbox_material_menu_selection_background = 'blue'
 
-
-colorscheme gruvbox-material
 set background=dark
+let g:gruvbox_contrast_dark = 'medium'
+colorscheme gruvbox-material
 
 if executable('rg')
     let g:rg_derive_root='true'
@@ -85,15 +87,8 @@ endif
 let loaded_matchparen = 1
 let mapleader = " "
 
-let g:netrw_browse_split = 2
-let g:netrw_banner = 0
-let g:netrw_winsize = 25
 
-nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
-nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<CR>
-nnoremap <leader>gb  :<C-u>CocList buffers<CR>
-nnoremap <leader>ac <Plug>(coc-codeaction)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
+nnoremap <C-p> :GFiles<CR>
 nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader>phw :h <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader>h :wincmd h<CR>
@@ -102,7 +97,6 @@ nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
 nnoremap <leader>u :UndotreeShow<CR>
 nnoremap <Leader>ps :Rg<SPACE>
-nnoremap <C-p> :GFiles<CR>
 nnoremap <Leader>pf :Files<CR>
 nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
 nnoremap <Leader>+ :vertical resize +5<CR>
@@ -127,6 +121,11 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 inoremap <silent><expr> <C-space> coc#refresh()
 
 " GoTo code navigation.
+nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
+nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<CR>
+nnoremap <leader>gb  :<C-u>CocList buffers<CR>
+nnoremap <leader>ac <Plug>(coc-codeaction)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>gd <Plug>(coc-definition)
 nmap <leader>gy <Plug>(coc-type-definition)
 nmap <leader>gi <Plug>(coc-implementation)
@@ -137,7 +136,7 @@ nmap <leader>g] <Plug>(coc-diagnostic-next)
 nmap <leader>gh <Plug>(coc-fix-current)
 nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev-error)
 nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
-nnoremap <leader>cr :CocRestart
+nnoremap <leader>cr :CocRestart<CR>
 nmap <C-k> <C-u>
 nmap <C-j> <C-d>
 imap jk <Esc>
@@ -154,16 +153,10 @@ fun! TrimWhitespace()
     call winrestview(l:save)
 endfun
 
-augroup highlight_yank
-    autocmd!
-    autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank("IncSearch", 50)
-augroup END
-
 autocmd BufWritePre * :call TrimWhitespace()
 
 
 map <C-n> :NERDTreeToggle<CR>
-
 
 "GitGutter
 nmap  ghp <Plug>(GitGutterPreviewHunk)
@@ -173,11 +166,11 @@ xmap  ghs <Plug>(GitGutterStageHunk)
 
 " Vim motion
 " s{char}{char} to move to {char}{char}
-hi link EasyMotionTarget red
-hi link EasyMotionIncSearch green
+hi link EasyMotionTarget yellow
+hi link EasyMotionIncSearch red
+
 nmap s <Plug>(easymotion-overwin-f2)
 let g:EasyMotion_smartcase = 1
-" Gif config
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
 " These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
@@ -189,3 +182,13 @@ map  N <Plug>(easymotion-prev)
 nmap f <Plug>(easymotion-bd-fl)
 nmap t <Plug>(easymotion-bd-tl)
 
+let g:airline_section_x=''
+let g:airline_section_y=''
+let g:airline_section_z=''
+
+
+nmap <leader>gj :diffget //3<CR>
+nmap <leader>gf :diffget //2<CR>
+
+"Abbreviation
+ab clg console.log(
