@@ -31,14 +31,6 @@ set updatetime=50
 " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
 
-
-:autocmd InsertEnter,InsertLeave * set cul!
- augroup savealot
-  autocmd!
-  autocmd FocusLost,InsertLeave * :wa
-  autocmd FocusLost,InsertLeave * CocCommand prettier.formatFile
-augroup END
-
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 
 call plug#begin('~/.vim/plugged')
@@ -63,6 +55,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'vim-scripts/ReplaceWithRegister'
 Plug 'kana/vim-textobj-indent'
 Plug 'kana/vim-textobj-user'
+Plug 'mattn/emmet-vim'
 
 call plug#end()
 
@@ -87,7 +80,6 @@ endif
 let loaded_matchparen = 1
 let mapleader = " "
 
-
 nnoremap <C-p> :GFiles<CR>
 nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader>phw :h <C-R>=expand("<cword>")<CR><CR>
@@ -99,8 +91,8 @@ nnoremap <leader>u :UndotreeShow<CR>
 nnoremap <Leader>ps :Rg<SPACE>
 nnoremap <Leader>pf :Files<CR>
 nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
-nnoremap <Leader>+ :vertical resize +5<CR>
-nnoremap <Leader>- :vertical resize -5<CR>
+nnoremap <A-[> :vertical resize -5<CR>
+nnoremap <A-]> :vertical resize +5<CR>
 nnoremap <Leader>rp :resize 100<CR>
 nnoremap <Leader>ee oif err != nil {<CR>log.Fatalf("%+v\n", err)<CR>}<CR><esc>kkI<esc>
 noremap K 5k
@@ -108,9 +100,14 @@ noremap J 5j
 inoremap <C-j> <C-n>
 inoremap <C-k> <C-p>
 vnoremap X "_d
-nnoremap <leader>n o<Esc>k
-nnoremap <leader>N O<Esc>j
+nnoremap go o<Esc>k
+nnoremap gO O<Esc>j
 
+
+augroup focus
+  autocmd!
+  autocmd FocusLost,BufLeave * silent! wa
+augroup END
 
 function! s:check_back_space() abort
     let col = col('.') - 1
@@ -142,11 +139,9 @@ nmap <C-j> <C-d>
 imap jk <Esc>
 imap jj <Esc>
 nmap <leader>gs :G<CR>
-nnoremap <leader>q :q!<cr>
+nnoremap <leader>q :q<cr>
 nnoremap <leader>z :wq<cr>
 nnoremap <leader>w :w<cr>
-imap <BS> <Nop>
-
 fun! TrimWhitespace()
     let l:save = winsaveview()
     keeppatterns %s/\s\+$//e
@@ -187,8 +182,9 @@ let g:airline_section_y=''
 let g:airline_section_z=''
 
 
-nmap <leader>gj :diffget //3<CR>
-nmap <leader>gf :diffget //2<CR>
+nmap <leader>g; :diffget //3<CR>
+nmap <leader>gj :diffget //2<CR>
 
 "Abbreviation
 ab clg console.log(
+
