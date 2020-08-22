@@ -56,6 +56,7 @@ Plug 'vim-scripts/ReplaceWithRegister'
 Plug 'kana/vim-textobj-indent'
 Plug 'kana/vim-textobj-user'
 Plug 'mattn/emmet-vim'
+Plug 'stsewd/fzf-checkout.vim'
 
 call plug#end()
 
@@ -102,6 +103,7 @@ inoremap <C-k> <C-p>
 vnoremap X "_d
 nnoremap go o<Esc>k
 nnoremap gO O<Esc>j
+nnoremap <leader>gc :GCheckout<CR>
 
 
 augroup focus
@@ -136,12 +138,12 @@ nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
 nnoremap <leader>cr :CocRestart<CR>
 nmap <C-k> <C-u>
 nmap <C-j> <C-d>
+nmap <D-j> <C-d>
 imap jk <Esc>
 imap jj <Esc>
-nmap <leader>gs :G<CR>
 nnoremap <leader>q :q<cr>
 nnoremap <leader>z :wq<cr>
-nnoremap <leader>w :w<cr>
+
 fun! TrimWhitespace()
     let l:save = winsaveview()
     keeppatterns %s/\s\+$//e
@@ -150,6 +152,15 @@ endfun
 
 autocmd BufWritePre * :call TrimWhitespace()
 
+fun! ToggleGStatus()
+    if buflisted(bufname('.git/index'))
+        bd .git/index
+    else
+        Gstatus
+    endif
+endfun
+command! ToggleGStatus :call ToggleGStatus()
+nmap <F3> :ToggleGStatus<CR>
 
 map <C-n> :NERDTreeToggle<CR>
 
@@ -177,7 +188,6 @@ map  N <Plug>(easymotion-prev)
 nmap f <Plug>(easymotion-bd-fl)
 nmap t <Plug>(easymotion-bd-tl)
 
-let g:airline_section_x=''
 let g:airline_section_y=''
 let g:airline_section_z=''
 
